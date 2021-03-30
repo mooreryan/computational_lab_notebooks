@@ -1,46 +1,84 @@
 open! Core
+open Jingoo
 
-let real_run_msg =
-  format_of_string
-    {whatever|
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Hi!
+let bold s = Printf.sprintf "\x1B[1m%s\x1B[0m" s
+let _dim s = Printf.sprintf "\x1B[2m%s\x1B[0m" s
+let _underline s = Printf.sprintf "\x1B[4m%s\x1B[0m" s
+let _blink s = Printf.sprintf "\x1B[5m%s\x1B[0m" s
+let invert s = Printf.sprintf "\x1B[7m%s\x1B[0m" s
 
-* The old action was '%s'.  It is now here: '%s'.
-* You should go ahead and run `git status` to see which files changed.
-* You probably want to add the actions and commit templates like this:
-  git add .actions .commit_templates
-* You probably want to add any other files that were created with:
-  git annex add <other file 1> <other file 2> ...
-  unless those files are pretty small.
+let real_run_msg ~old_action ~new_action ~commit_template =
+  let s =
+    {heredoc|
+~~~
+~~~
+~~~ Hi!  I just ran an action for you.
+~~~
+~~~ * The pending action was '{{ old_action }}'.  
+~~~ * The completed action is '{{ new_action }}'.
+~~~
+~~~ Now, there are a couple of things you should do.
+~~~
+~~~ * Check which files have changed:
+~~~     $ {{ git_status }}
+~~~ * Add actions and commit templates:
+~~~     $ {{ git_add }}
+~~~ * Unless they are small, add other new files with git annex:
+~~~     $ {{ git_annex }}
+~~~ * After adding files, commit changes using the template:
+~~~     $ {{ git_commit }}
+~~~
+~~~ After that you are good to go!  
+~~~ 
+~~~ * You can now check the logs with {{ git_log }},
+~~~   or use a GUI like {{ gitk }} to view the history.
+~~~
+|heredoc}
+  in
+  let env = { Jg_types.std_env with autoescape = false } in
+  Jg_template.from_string ~env s
+    ~models:
+      [
+        ("old_action", Jg_types.Tstr (bold old_action));
+        ("new_action", Jg_types.Tstr (bold new_action));
+        ("git_add", Jg_types.Tstr (bold "git add .actions .commit_templates"));
+        ("git_annex", Jg_types.Tstr (bold "git annex add blah blah blah..."));
+        ( "git_commit",
+          Jg_types.Tstr (bold ("git commit -t '" ^ commit_template ^ "'")) );
+        ("git_status", Jg_types.Tstr (bold "git status"));
+        ("git_log", Jg_types.Tstr (bold "git log"));
+        ("gitk", Jg_types.Tstr (bold "gitk"));
+      ]
 
-* When you commit, use the template: git commit -t '%s'
-|whatever}
+let dry_run_msg ~action_fname ~contents =
+  let s =
+    {heredoc|
+~~~ 
+~~~
+~~~ Hi!  I just previewed an action for you.
+~~~ 
+~~~ I plan to run this action file: 
+~~~   '{{ action_fname }}'
+~~~ 
+~~~ It's contents are:
+~~~ 
+{{ contents }}
+~~~ 
+~~~ If that looks good, you can run the action:
+~~~   $ {{ run_command }}
+~~~ 
+~~~ 
+|heredoc}
+  in
+  let env = { Jg_types.std_env with autoescape = false } in
+  Jg_template.from_string ~env s
+    ~models:
+      [
+        ("action_fname", Jg_types.Tstr (bold action_fname));
+        ("contents", Jg_types.Tstr (invert contents));
+        ("run_command", Jg_types.Tstr (bold "gln.exe run-action"));
+      ]
 
-let dry_run_msg =
-  format_of_string
-    {whatever|
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Hi!
-
-I will run this action file: '%s'
-
-It's contents are:
-
-====
-====
-
-%s
-====
-====
-
-If that looks good, then rerun without passing -dry-run.
-|whatever}
-
-(* Need to clean up whether things are full filenames or just basename
-   or just ... *)
-
-(* This won't have the dirname. *)
 let get_pending_action_fname () =
   let pending_actions = Sys.readdir Constants.pending_actions_dir in
   match Array.length pending_actions with
@@ -68,7 +106,7 @@ let get_pending_commit_template_fname pending_action_fname =
         String.is_substring ~substring:action_basename commit_template_fname)
   in
   match Array.length matching_commit_templates with
-  | 1 -> Fname_parts.make pending_commit_templates.(0)
+  | 1 -> Fname_parts.make matching_commit_templates.(0)
   | n ->
       let () =
         Printf.eprintf
@@ -102,19 +140,25 @@ let run_action action_fname =
 
 let print_real_run_message old_action_fname new_action_fname
     pending_commit_template_fname =
-  Printf.printf real_run_msg
-    (Fname_parts.to_string old_action_fname
-       ~default_dirname:Constants.pending_actions_dir)
-    new_action_fname
-    (Fname_parts.to_string pending_commit_template_fname
-       ~default_dirname:Constants.commit_templates_dir)
+  let old_action =
+    Fname_parts.to_string old_action_fname
+      ~default_dirname:Constants.pending_actions_dir
+  in
+  let new_action = new_action_fname in
+  let commit_template =
+    Fname_parts.to_string pending_commit_template_fname
+      ~default_dirname:Constants.commit_templates_dir
+  in
+  print_endline (real_run_msg ~old_action ~new_action ~commit_template)
 
 let do_dry_run pending_action_fname =
   let full_path =
     Fname_parts.to_string ~default_dirname:Constants.pending_actions_dir
       pending_action_fname
   in
-  Printf.printf dry_run_msg full_path (In_channel.read_all full_path)
+  print_endline
+    (dry_run_msg ~action_fname:full_path
+       ~contents:(In_channel.read_all full_path))
 
 let do_real_run ~pending_action_fname ~pending_commit_template_fname =
   let completed_action_fname = run_action pending_action_fname in

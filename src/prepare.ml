@@ -1,33 +1,33 @@
 open! Core
+open Jingoo
 
-let summary_msg =
-  format_of_string
-    {whatever|
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Hi!
+let bold s = Printf.sprintf "\x1B[1m%s\x1B[0m" s
 
-* The action file is: %s
-* The commit template file is: %s
-
-Handle the action
-=================
-
-* Check the action first: cat '%s'
-* If it looks good, run it!  To run the action do: bash '%s'
-
-Add the files to git
-====================
-
-Then, you will want to check the files you generated with 'git status'.
-
-* Large files you should add with 'git annex add <filename>'.
-* Small files you can add with regular git: 'git add <filename>'.
-
-Commit changes
-==============
-
-Finally, commit things.  Use the message template: git commit -t '%s'" 
-|whatever}
+let summary_msg ~action_fname ~commit_fname =
+  let s =
+    {heredoc|
+~~~ 
+~~~ 
+~~~ Hi!  I just prepared an action for you.
+~~~ 
+~~~ * The pending action is: '{{ action_fname }}'
+~~~ * The git commit template file is: '{{ commit_fname }}'
+~~~
+~~~ Next, you should check the prepared action: 
+~~~     $ {{ check_action_command }}
+~~~ 
+~~~ 
+|heredoc}
+  in
+  let env = { Jg_types.std_env with autoescape = false } in
+  Jg_template.from_string ~env s
+    ~models:
+      [
+        ("action_fname", Jg_types.Tstr (bold action_fname));
+        ("commit_fname", Jg_types.Tstr (bold commit_fname));
+        ( "check_action_command",
+          Jg_types.Tstr (bold "gln.exe run-action -dry-run") );
+      ]
 
 (* If it is a executable on the path, expand it so it is clearer in
    the commit messages. *)
@@ -85,8 +85,9 @@ let write_summary_message ~action_fname ~commit_template_fname =
     Fname_parts.to_string ~default_dirname:Constants.commit_templates_dir
       commit_template_fname
   in
-  Printf.printf summary_msg action_fname' commit_template_fname' action_fname'
-    action_fname' commit_template_fname'
+  print_endline
+    (summary_msg ~action_fname:action_fname'
+       ~commit_fname:commit_template_fname')
 
 (* Ideally the user runs the actions with the CLI rather than by hand.
    If they do, these won't get out of sync.  But we still check both
