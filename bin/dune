@@ -1,0 +1,4 @@
+(executables
+ (names gln)
+ (libraries core gln)
+ (preprocess (pps ppx_jane)))
