@@ -1,17 +1,15 @@
 open! Core
 open Jingoo
 
-let bold s = Printf.sprintf "\x1B[1m%s\x1B[0m" s
-
-let summary_msg ~action_fname ~commit_fname =
+let summary_msg ~action ~template =
   let s =
     {heredoc|
 ~~~ 
 ~~~ 
 ~~~ Hi!  I just prepared an action for you.
 ~~~ 
-~~~ * The pending action is: '{{ action_fname }}'
-~~~ * The git commit template file is: '{{ commit_fname }}'
+~~~ * The pending action is: '{{ action }}'
+~~~ * The git commit template file is: '{{ template }}'
 ~~~
 ~~~ Next, you should check the prepared action: 
 ~~~   $ {{ check_action_command }}
@@ -23,10 +21,10 @@ let summary_msg ~action_fname ~commit_fname =
   Jg_template.from_string ~env s
     ~models:
       [
-        ("action_fname", Jg_types.Tstr (bold action_fname));
-        ("commit_fname", Jg_types.Tstr (bold commit_fname));
+        ("action", Jg_types.Tstr (Utils.bold action));
+        ("template", Jg_types.Tstr (Utils.bold template));
         ( "check_action_command",
-          Jg_types.Tstr (bold "gln.exe run-action -dry-run") );
+          Jg_types.Tstr (Utils.bold "gln.exe run-action -dry-run") );
       ]
 
 (* If it is a executable on the path, expand it so it is clearer in
@@ -37,7 +35,6 @@ let try_expand_exe_path arg =
   if String.length arg = 0 || Char.(String.get arg 0 = '-') then arg
   else
     let cmd = Printf.sprintf "which %s" (Sys.quote arg) in
-    (* let () = print_endline cmd in *)
     let in_chan = Unix.open_process_in cmd in
     let cmd_full_path = Stdio.In_channel.input_all in_chan |> String.strip in
     match Unix.close_process_in in_chan with
@@ -55,36 +52,26 @@ let expand_command cmd =
   (* Ensure we have a newline. *)
   cmd' ^ "\n"
 
-let write_action_file data now =
-  let actions_dir = Utils.assert_dirname_exists Constants.pending_actions_dir in
+let write_action_file ~dir ~data ~now =
+  let basename = Utils.action_basename data now in
   let fname =
-    Filename.concat actions_dir
-      (Printf.sprintf "action__%d__%s.sh" (String.hash data) now)
+    Fname.make ~dir ~basename ~suffix:(Some Constants.action_suffix)
   in
-  let () = Out_channel.write_all fname ~data in
-  Fname_parts.make fname
+  let () = Out_channel.write_all (Fname.to_string fname) ~data in
+  fname
 
-let write_commit_template_file ~dir ~template_data ~now ~action_data =
+let write_template_file ~dir ~template_data ~action_data ~now =
+  let basename = Utils.action_basename action_data now in
   let fname =
-    Filename.concat dir
-      (Printf.sprintf "action__%d__%s.gc_template.txt" (String.hash action_data)
-         now)
+    Fname.make ~dir ~basename ~suffix:(Some Constants.template_suffix)
   in
-  let () = Out_channel.write_all fname ~data:template_data in
-  Fname_parts.make fname
+  let () = Out_channel.write_all (Fname.to_string fname) ~data:template_data in
+  fname
 
-let write_summary_message ~action_fname ~commit_template_fname =
-  let action_fname' =
-    Fname_parts.to_string ~default_dirname:Constants.pending_actions_dir
-      action_fname
-  in
-  let commit_template_fname' =
-    Fname_parts.to_string ~default_dirname:Constants.pending_actions_dir
-      commit_template_fname
-  in
-  print_endline
-    (summary_msg ~action_fname:action_fname'
-       ~commit_fname:commit_template_fname')
+let write_summary_message ~action ~template =
+  let action' = Fname.to_string action in
+  let template' = Fname.to_string template in
+  print_endline (summary_msg ~action:action' ~template:template')
 
 (* Ideally the user runs the actions with the CLI rather than by hand.
    If they do, these won't get out of sync.  But we still check both
@@ -104,16 +91,12 @@ let deny_pending_actions_exist () =
 let main action =
   (* First we ensure no pending stuff is left. *)
   let () = deny_pending_actions_exist () in
+  let dir = Utils.assert_dirname_exists Constants.pending_actions_dir in
 
   (* Now actually set up the action. *)
   let now = Utils.now () in
   let action_data = expand_command action in
-  let action_fname = write_action_file action_data now in
-  let template_data =
-    Templates.make_commit_template_data action_data action_fname
-  in
-  let commit_template_fname =
-    write_commit_template_file ~template_data ~now ~action_data
-      ~dir:Constants.pending_actions_dir
-  in
-  write_summary_message ~action_fname ~commit_template_fname
+  let action = write_action_file ~dir ~data:action_data ~now in
+  let template_data = Templates.make_template_data action_data action in
+  let template = write_template_file ~dir ~template_data ~now ~action_data in
+  write_summary_message ~action ~template

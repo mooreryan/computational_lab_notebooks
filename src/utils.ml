@@ -52,3 +52,6 @@ let _dim s = Printf.sprintf "\x1B[2m%s\x1B[0m" s
 let _underline s = Printf.sprintf "\x1B[4m%s\x1B[0m" s
 let _blink s = Printf.sprintf "\x1B[5m%s\x1B[0m" s
 let invert s = Printf.sprintf "\x1B[7m%s\x1B[0m" s
+
+let action_basename data created_at =
+  Printf.sprintf "action__%d__%s" (String.hash data) created_at

@@ -1,6 +1,6 @@
 open! Core
 
-let make_commit_template_data action action_fname =
+let make_template_data action action_fname =
   Printf.sprintf
     {whatever|PUT COMMIT MSG HERE.
 
@@ -13,8 +13,7 @@ PUT DETAILS HERE.
 == Action file ==
 %s
 |whatever}
-    action
-    (Fname_parts.name action_fname)
+    action (Fname.name action_fname)
 
 let make_readme_data project_name =
   Printf.sprintf

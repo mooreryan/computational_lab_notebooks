@@ -112,7 +112,7 @@ let get_pending_action () =
 let get_associated_template action =
   let template =
     Fname.make ~dir:(Fname.dir action) ~basename:(Fname.basename action)
-      ~suffix:(Some Constants.gc_template_suffix)
+      ~suffix:(Some Constants.template_suffix)
   in
   match Sys.file_exists ~follow_symlinks:true (Fname.to_string template) with
   | `Yes -> Ok template

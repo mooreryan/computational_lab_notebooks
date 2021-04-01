@@ -25,3 +25,9 @@ let to_string f =
 let dir f = f.dir
 let basename f = f.basename
 let suffix f = f.suffix
+
+(* If /apple/pie.txt -> pie.txt *)
+let name f =
+  match f.suffix with
+  | Some suffix -> Printf.sprintf "%s.%s" f.basename suffix
+  | None -> f.basename
