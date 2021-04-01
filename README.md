@@ -1,2 +1,2 @@
-# Git Lab Notebooks
+# Computational Lab Notebooks
 
