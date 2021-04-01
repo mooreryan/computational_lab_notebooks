@@ -5,7 +5,7 @@ Change into the work dir.
 
 Init project
 
-  $ cln.exe init 'Happy Path'
+  $ "${TESTDIR}"/happy_path_workdir/../../../_build/default/bin/cln.exe init 'Happy Path'
   Initialized empty Git repository in /*/tests/cram/happy_path_workdir/.git/ (glob)
   init  (scanning for unlocked files...)
   ok
@@ -21,7 +21,7 @@ Init project
 
 Prepare a good command.
 
-  $ cln.exe prepare 'printf "I like apple pie\n" > msg.txt'
+  $ "${TESTDIR}"/happy_path_workdir/../../../_build/default/bin/cln.exe prepare 'printf "I like apple pie\n" > msg.txt'
   
   ~~~ 
   ~~~ 
@@ -39,7 +39,7 @@ Prepare a good command.
 
 Do the dry run (note the spaces again).
 
-  $ cln.exe run-action -dry-run
+  $ "${TESTDIR}"/happy_path_workdir/../../../_build/default/bin/cln.exe run-action -dry-run
   
   ~~~ 
   ~~~
@@ -60,7 +60,7 @@ Do the dry run (note the spaces again).
   
 And do the real run.
 
-  $ cln.exe run-action
+  $ "${TESTDIR}"/happy_path_workdir/../../../_build/default/bin/cln.exe run-action
   
   ~~~
   ~~~
