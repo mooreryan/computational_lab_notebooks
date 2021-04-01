@@ -1,5 +1,5 @@
 open! Core
-open Gln_lib
+open Cln_lib
 
 let version = "0.0.0"
 

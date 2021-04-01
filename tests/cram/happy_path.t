@@ -5,7 +5,7 @@ Change into the work dir.
 
 Init project
 
-  $ gln.exe init 'Happy Path'
+  $ cln.exe init 'Happy Path'
   Initialized empty Git repository in /*/tests/cram/happy_path_workdir/.git/ (glob)
   init  (scanning for unlocked files...)
   ok
@@ -21,7 +21,7 @@ Init project
 
 Prepare a good command.
 
-  $ gln.exe prepare 'printf "I like apple pie\n" > msg.txt'
+  $ cln.exe prepare 'printf "I like apple pie\n" > msg.txt'
   
   ~~~ 
   ~~~ 
@@ -31,7 +31,7 @@ Prepare a good command.
   ~~~ * The git commit template file is: '\x1b[1m.actions/pending/action__*.gc_template.txt\x1b[0m' (esc) (glob)
   ~~~
   ~~~ Next, you should check the prepared action: 
-  ~~~   $ \x1b[1mgln.exe run-action -dry-run\x1b[0m (esc)
+  ~~~   $ \x1b[1mcln.exe run-action -dry-run\x1b[0m (esc)
   ~~~ 
   ~~~ 
   
@@ -39,7 +39,7 @@ Prepare a good command.
 
 Do the dry run (note the spaces again).
 
-  $ gln.exe run-action -dry-run
+  $ cln.exe run-action -dry-run
   
   ~~~ 
   ~~~
@@ -54,13 +54,13 @@ Do the dry run (note the spaces again).
   \x1b[0m (esc)
   ~~~ 
   ~~~ If that looks good, you can run the action:
-  ~~~   $ \x1b[1mgln.exe run-action\x1b[0m (esc)
+  ~~~   $ \x1b[1mcln.exe run-action\x1b[0m (esc)
   ~~~ 
   ~~~ 
   
 And do the real run.
 
-  $ gln.exe run-action
+  $ cln.exe run-action
   
   ~~~
   ~~~
