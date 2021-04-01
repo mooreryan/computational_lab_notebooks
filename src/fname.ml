@@ -31,3 +31,8 @@ let name f =
   match f.suffix with
   | Some suffix -> Printf.sprintf "%s.%s" f.basename suffix
   | None -> f.basename
+
+let exists f =
+  match Sys.file_exists ~follow_symlinks:true (to_string f) with
+  | `Yes -> true
+  | _ -> false

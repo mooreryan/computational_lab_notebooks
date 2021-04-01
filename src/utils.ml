@@ -55,3 +55,14 @@ let invert s = Printf.sprintf "\x1B[7m%s\x1B[0m" s
 
 let action_basename data created_at =
   Printf.sprintf "action__%d__%s" (String.hash data) created_at
+
+let action_and_template_match ~action ~template =
+  let open Fname in
+  let dirs_match = String.equal (dir action) (dir template) in
+  let basenames_match = String.equal (basename action) (basename template) in
+  dirs_match && basenames_match
+
+(* Do they match and do they exist? *)
+let actions_and_templates_ok ~action ~template =
+  let they_match = action_and_template_match ~action ~template in
+  they_match && Fname.exists action && Fname.exists template
