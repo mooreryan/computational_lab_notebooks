@@ -14,7 +14,7 @@ let summary_msg ~action_fname ~commit_fname =
 ~~~ * The git commit template file is: '{{ commit_fname }}'
 ~~~
 ~~~ Next, you should check the prepared action: 
-~~~     $ {{ check_action_command }}
+~~~   $ {{ check_action_command }}
 ~~~ 
 ~~~ 
 |heredoc}
@@ -64,16 +64,13 @@ let write_action_file data now =
   let () = Out_channel.write_all fname ~data in
   Fname_parts.make fname
 
-let write_commit_template_file data now action_data =
-  let templates_dir =
-    Utils.assert_dirname_exists Constants.commit_templates_dir
-  in
+let write_commit_template_file ~dir ~template_data ~now ~action_data =
   let fname =
-    Filename.concat templates_dir
-      (Printf.sprintf "template_for__action__%d__%s.txt"
-         (String.hash action_data) now)
+    Filename.concat dir
+      (Printf.sprintf "action__%d__%s.gc_template.txt" (String.hash action_data)
+         now)
   in
-  let () = Out_channel.write_all fname ~data in
+  let () = Out_channel.write_all fname ~data:template_data in
   Fname_parts.make fname
 
 let write_summary_message ~action_fname ~commit_template_fname =
@@ -82,7 +79,7 @@ let write_summary_message ~action_fname ~commit_template_fname =
       action_fname
   in
   let commit_template_fname' =
-    Fname_parts.to_string ~default_dirname:Constants.commit_templates_dir
+    Fname_parts.to_string ~default_dirname:Constants.pending_actions_dir
       commit_template_fname
   in
   print_endline
@@ -116,6 +113,7 @@ let main action =
     Templates.make_commit_template_data action_data action_fname
   in
   let commit_template_fname =
-    write_commit_template_file template_data now action_data
+    write_commit_template_file ~template_data ~now ~action_data
+      ~dir:Constants.pending_actions_dir
   in
   write_summary_message ~action_fname ~commit_template_fname

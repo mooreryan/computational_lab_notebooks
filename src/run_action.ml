@@ -1,21 +1,18 @@
 open! Core
 open Jingoo
 
-let bold s = Printf.sprintf "\x1B[1m%s\x1B[0m" s
-let _dim s = Printf.sprintf "\x1B[2m%s\x1B[0m" s
-let _underline s = Printf.sprintf "\x1B[4m%s\x1B[0m" s
-let _blink s = Printf.sprintf "\x1B[5m%s\x1B[0m" s
-let invert s = Printf.sprintf "\x1B[7m%s\x1B[0m" s
-
-let real_run_msg ~old_action ~new_action ~commit_template =
+let real_run_msg ~pending_action ~completed_action ~completed_template =
+  let pending_action = Fname.to_string pending_action in
+  let completed_action = Fname.to_string completed_action in
+  let completed_template = Fname.to_string completed_template in
   let s =
     {heredoc|
 ~~~
 ~~~
 ~~~ Hi!  I just ran an action for you.
 ~~~
-~~~ * The pending action was '{{ old_action }}'.  
-~~~ * The completed action is '{{ new_action }}'.
+~~~ * The pending action was '{{ pending_action }}'.  
+~~~ * The completed action is '{{ completed_action }}'.
 ~~~
 ~~~ Now, there are a couple of things you should do.
 ~~~
@@ -39,15 +36,17 @@ let real_run_msg ~old_action ~new_action ~commit_template =
   Jg_template.from_string ~env s
     ~models:
       [
-        ("old_action", Jg_types.Tstr (bold old_action));
-        ("new_action", Jg_types.Tstr (bold new_action));
-        ("git_add", Jg_types.Tstr (bold "git add .actions .commit_templates"));
-        ("git_annex", Jg_types.Tstr (bold "git annex add blah blah blah..."));
+        ("pending_action", Jg_types.Tstr (Utils.bold pending_action));
+        ("completed_action", Jg_types.Tstr (Utils.bold completed_action));
+        ("git_add", Jg_types.Tstr (Utils.bold "git add .actions"));
+        ( "git_annex",
+          Jg_types.Tstr (Utils.bold "git annex add blah blah blah...") );
         ( "git_commit",
-          Jg_types.Tstr (bold ("git commit -t '" ^ commit_template ^ "'")) );
-        ("git_status", Jg_types.Tstr (bold "git status"));
-        ("git_log", Jg_types.Tstr (bold "git log"));
-        ("gitk", Jg_types.Tstr (bold "gitk"));
+          Jg_types.Tstr
+            (Utils.bold ("git commit -t '" ^ completed_template ^ "'")) );
+        ("git_status", Jg_types.Tstr (Utils.bold "git status"));
+        ("git_log", Jg_types.Tstr (Utils.bold "git log"));
+        ("gitk", Jg_types.Tstr (Utils.bold "gitk"));
       ]
 
 let dry_run_msg ~action_fname ~contents =
@@ -74,101 +73,97 @@ let dry_run_msg ~action_fname ~contents =
   Jg_template.from_string ~env s
     ~models:
       [
-        ("action_fname", Jg_types.Tstr (bold action_fname));
-        ("contents", Jg_types.Tstr (invert contents));
-        ("run_command", Jg_types.Tstr (bold "gln.exe run-action"));
+        ("action_fname", Jg_types.Tstr (Utils.bold action_fname));
+        ("contents", Jg_types.Tstr (Utils.invert contents));
+        ("run_command", Jg_types.Tstr (Utils.bold "gln.exe run-action"));
       ]
 
-let get_pending_action_fname () =
-  let pending_actions = Sys.readdir Constants.pending_actions_dir in
+let get_pending_action () =
+  let is_pending_action = String.is_suffix ~suffix:Constants.action_suffix in
+  let pending_actions =
+    Sys.readdir Constants.pending_actions_dir
+    |> Array.map ~f:(fun fname ->
+           (* Take the dirname back on since readdir doesn't include it. *)
+           Filename.concat Constants.pending_actions_dir fname)
+    (* We only want the shell scripts.  There will also be a git
+       template along with it. *)
+    |> Array.filter ~f:is_pending_action
+  in
   match Array.length pending_actions with
-  | 1 -> Fname_parts.make pending_actions.(0)
-  | n ->
+  | 1 ->
+      let fname = Fname.of_string pending_actions.(0) in
       let () =
-        Printf.eprintf
+        Printf.printf "RYAN: %s --  %s\n\n\n" pending_actions.(0)
+          (Fname.to_string fname)
+      in
+      Ok fname
+  | n ->
+      let msg =
+        Printf.sprintf
           "ERROR -- there should be one action.  I found %d.  Did you manually \
            move some actions out of the pending directory?  Did you manually \
            run actions?  Did you manually add actions?\n"
           n
       in
-      exit 1
+      Error msg
 
-let get_pending_commit_template_fname pending_action_fname =
-  (* let _, action_basename_with_ext = Filename.split pending_action_fname in *)
-  let action_basename, _ =
-    Filename.split_extension (Fname_parts.name pending_action_fname)
+(* Given the name of an action file, get its associated git commit
+   template. *)
+let get_associated_template action =
+  let template =
+    Fname.make ~dir:(Fname.dir action) ~basename:(Fname.basename action)
+      ~suffix:(Some Constants.gc_template_suffix)
   in
-  let pending_commit_templates = Sys.readdir Constants.commit_templates_dir in
-  let matching_commit_templates =
-    (* We want to make sure that only one of the git templates matches the action. *)
-    Array.filter pending_commit_templates ~f:(fun commit_template_fname ->
-        (* .commit_templates/template_for__action__1063928644__2021-03-30_00:18:32.txt *)
-        String.is_substring ~substring:action_basename commit_template_fname)
-  in
-  match Array.length matching_commit_templates with
-  | 1 -> Fname_parts.make matching_commit_templates.(0)
-  | n ->
-      let () =
-        Printf.eprintf
-          "ERROR -- more than one (%d) git commit template matched for the \
-           pending action.  Did you make some commit templates by hand?\n"
-          n
+  match Sys.file_exists ~follow_symlinks:true (Fname.to_string template) with
+  | `Yes -> Ok template
+  | _ ->
+      let msg =
+        Printf.sprintf
+          "ERROR -- the associated template file for action '%s' should be \
+           '%s', but I cannot find it!"
+          (Fname.to_string action) (Fname.to_string template)
       in
-      exit 1
+      Error msg
 
-let run_action action_fname =
-  let full_action_fname =
-    Fname_parts.to_string ~default_dirname:Constants.pending_actions_dir
-      action_fname
-  in
-  let cmd = Printf.sprintf "bash '%s'" full_action_fname in
-  match Sys.command cmd with
-  | 0 ->
-      let completed_action_fname =
-        Filename.concat Constants.completed_actions_dir
-          (Fname_parts.name action_fname)
-      in
-      let () = Sys.rename full_action_fname completed_action_fname in
-      completed_action_fname
-  | code ->
-      let () =
-        Printf.eprintf
-          "ERROR when running %s: %d\n\nThe problematic action file is '%s'\n"
-          cmd code full_action_fname
-      in
-      exit 1
+let run_action action =
+  let cmd = Printf.sprintf "bash '%s'" (Fname.to_string action) in
+  match Sys.command cmd with 0 -> Ok () | exit_code -> Error exit_code
 
-let print_real_run_message old_action_fname new_action_fname
-    pending_commit_template_fname =
-  let old_action =
-    Fname_parts.to_string old_action_fname
-      ~default_dirname:Constants.pending_actions_dir
-  in
-  let new_action = new_action_fname in
-  let commit_template =
-    Fname_parts.to_string pending_commit_template_fname
-      ~default_dirname:Constants.commit_templates_dir
-  in
-  print_endline (real_run_msg ~old_action ~new_action ~commit_template)
+(* Convert pending fname to a completed fname *)
+let pending_to_completed fname =
+  Fname.update fname ~dir:Constants.completed_actions_dir
 
-let do_dry_run pending_action_fname =
-  let full_path =
-    Fname_parts.to_string ~default_dirname:Constants.pending_actions_dir
-      pending_action_fname
-  in
+let move ~source ~target =
+  Sys.rename (Fname.to_string source) (Fname.to_string target)
+
+let do_dry_run pending_action =
   print_endline
-    (dry_run_msg ~action_fname:full_path
-       ~contents:(In_channel.read_all full_path))
+    (dry_run_msg
+       ~action_fname:(Fname.to_string pending_action)
+       ~contents:(In_channel.read_all (Fname.to_string pending_action)))
 
-let do_real_run ~pending_action_fname ~pending_commit_template_fname =
-  let completed_action_fname = run_action pending_action_fname in
-  print_real_run_message pending_action_fname completed_action_fname
-    pending_commit_template_fname
+let do_real_run ~pending_action ~pending_template =
+  match run_action pending_action with
+  | Ok () ->
+      let completed_action = pending_to_completed pending_action in
+      let completed_template = pending_to_completed pending_template in
+      let () = move ~source:pending_action ~target:completed_action in
+      let () = move ~source:pending_template ~target:completed_template in
+      Ok (real_run_msg ~pending_action ~completed_action ~completed_template)
+  | Error exit_code ->
+      let msg =
+        Printf.sprintf "ERROR (code %d) when running action '%s'" exit_code
+          (Fname.to_string pending_action)
+      in
+      Error (exit_code, msg)
 
 let main ~dry_run =
-  let pending_action_fname = get_pending_action_fname () in
-  let pending_commit_template_fname =
-    get_pending_commit_template_fname pending_action_fname
+  let pending_action = Utils.ok_or_abort (get_pending_action ()) in
+  let pending_template =
+    Utils.ok_or_abort (get_associated_template pending_action)
   in
-  if dry_run then do_dry_run pending_action_fname
-  else do_real_run ~pending_action_fname ~pending_commit_template_fname
+  if dry_run then do_dry_run pending_action
+  else
+    match do_real_run ~pending_action ~pending_template with
+    | Ok msg -> print_endline msg
+    | Error (exit_code, msg) -> Utils.abort ~exit_code msg

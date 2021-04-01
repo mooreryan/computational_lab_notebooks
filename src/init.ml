@@ -8,14 +8,9 @@ let make_project_dirs () =
   let complete_actions_dir =
     Utils.deny_dirname_exists Constants.completed_actions_dir
   in
-  let commit_templates_dir =
-    Utils.deny_dirname_exists Constants.commit_templates_dir
-  in
   let _git_dir = Utils.deny_dirname_exists ".git" in
 
-  [
-    actions_dir; pending_actions_dir; complete_actions_dir; commit_templates_dir;
-  ]
+  [ actions_dir; pending_actions_dir; complete_actions_dir ]
   |> List.iter ~f:Unix.mkdir
 
 let write_readme project_name =

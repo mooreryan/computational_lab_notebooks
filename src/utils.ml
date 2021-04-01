@@ -39,3 +39,16 @@ let run_cmd_or_abort cmd =
       exit code
 
 let run_cmds_or_abort cmds = List.iter cmds ~f:run_cmd_or_abort
+
+let abort ?(exit_code = 1) msg =
+  let () = Printf.eprintf "%s\n" msg in
+  exit exit_code
+
+let ok_or_abort ?(exit_code = 1) result =
+  match result with Ok x -> x | Error msg -> abort ~exit_code msg
+
+let bold s = Printf.sprintf "\x1B[1m%s\x1B[0m" s
+let _dim s = Printf.sprintf "\x1B[2m%s\x1B[0m" s
+let _underline s = Printf.sprintf "\x1B[4m%s\x1B[0m" s
+let _blink s = Printf.sprintf "\x1B[5m%s\x1B[0m" s
+let invert s = Printf.sprintf "\x1B[7m%s\x1B[0m" s
