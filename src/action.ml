@@ -1,5 +1,7 @@
 open! Core
 
+type t = { action : Fname.t; template : Fname.t }
+
 let get_pending_action () =
   let is_pending_action = String.is_suffix ~suffix:Constants.action_suffix in
   let pending_actions =
@@ -43,6 +45,15 @@ let get_associated_template action =
       in
       Error msg
 
+let get_pending () =
+  get_pending_action ()
+  |> Result.bind ~f:(fun action ->
+         get_associated_template action
+         |> Result.map ~f:(fun template -> { action; template }))
+
 let run_action action =
-  let cmd = Printf.sprintf "bash '%s'" (Fname.to_string action) in
+  let cmd = Printf.sprintf "bash '%s'" (Fname.to_string action.action) in
   match Sys.command cmd with 0 -> Ok () | exit_code -> Error exit_code
+
+let action action = action.action
+let template action = action.template

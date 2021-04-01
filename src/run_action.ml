@@ -78,34 +78,39 @@ let dry_run_msg ~action_fname ~contents =
         ("run_command", Jg_types.Tstr (Utils.bold "cln.exe run-action"));
       ]
 
-let do_dry_run pending_action =
+let do_dry_run pending =
+  let fname = Action.action pending in
   print_endline
-    (dry_run_msg
-       ~action_fname:(Fname.to_string pending_action)
-       ~contents:(In_channel.read_all (Fname.to_string pending_action)))
+    (dry_run_msg ~action_fname:(Fname.to_string fname)
+       ~contents:(In_channel.read_all (Fname.to_string fname)))
 
-let do_real_run ~pending_action ~pending_template =
-  match Action.run_action pending_action with
+let do_real_run pending =
+  let open Action in
+  match run_action pending with
   | Ok () ->
-      let completed_action = Utils.pending_to_completed pending_action in
-      let completed_template = Utils.pending_to_completed pending_template in
-      let () = Fname.move ~source:pending_action ~target:completed_action in
-      let () = Fname.move ~source:pending_template ~target:completed_template in
-      Ok (real_run_msg ~pending_action ~completed_action ~completed_template)
+      (* Get completed names. *)
+      let completed_action = Utils.pending_to_completed (action pending) in
+      let completed_template = Utils.pending_to_completed (template pending) in
+      (* Do the move *)
+      let () = Fname.move ~source:(action pending) ~target:completed_action in
+      let () =
+        Fname.move ~source:(template pending) ~target:completed_template
+      in
+      (* Return the msg *)
+      Ok
+        (real_run_msg ~pending_action:(action pending) ~completed_action
+           ~completed_template)
   | Error exit_code ->
       let msg =
         Printf.sprintf "ERROR (code %d) when running action '%s'" exit_code
-          (Fname.to_string pending_action)
+          (Fname.to_string (Action.action pending))
       in
       Error (exit_code, msg)
 
 let main ~dry_run =
-  let pending_action = Utils.ok_or_abort (Action.get_pending_action ()) in
-  let pending_template =
-    Utils.ok_or_abort (Action.get_associated_template pending_action)
-  in
-  if dry_run then do_dry_run pending_action
+  let pending = Utils.ok_or_abort (Action.get_pending ()) in
+  if dry_run then do_dry_run pending
   else
-    match do_real_run ~pending_action ~pending_template with
+    match do_real_run pending with
     | Ok msg -> print_endline msg
     | Error (exit_code, msg) -> Utils.abort ~exit_code msg
