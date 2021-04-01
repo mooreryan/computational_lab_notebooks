@@ -36,3 +36,5 @@ let exists f =
   match Sys.file_exists ~follow_symlinks:true (to_string f) with
   | `Yes -> true
   | _ -> false
+
+let move ~source ~target = Sys.rename (to_string source) (to_string target)

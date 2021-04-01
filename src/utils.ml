@@ -66,3 +66,7 @@ let action_and_template_match ~action ~template =
 let actions_and_templates_ok ~action ~template =
   let they_match = action_and_template_match ~action ~template in
   they_match && Fname.exists action && Fname.exists template
+
+(* Convert pending fname to a completed fname *)
+let pending_to_completed fname =
+  Fname.update fname ~dir:Constants.completed_actions_dir

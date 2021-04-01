@@ -78,60 +78,6 @@ let dry_run_msg ~action_fname ~contents =
         ("run_command", Jg_types.Tstr (Utils.bold "cln.exe run-action"));
       ]
 
-let get_pending_action () =
-  let is_pending_action = String.is_suffix ~suffix:Constants.action_suffix in
-  let pending_actions =
-    Sys.readdir Constants.pending_actions_dir
-    |> Array.map ~f:(fun fname ->
-           (* Take the dirname back on since readdir doesn't include it. *)
-           Filename.concat Constants.pending_actions_dir fname)
-    (* We only want the shell scripts.  There will also be a git
-       template along with it. *)
-    |> Array.filter ~f:is_pending_action
-  in
-  match Array.length pending_actions with
-  | 1 ->
-      let fname = Fname.of_string pending_actions.(0) in
-      Ok fname
-  | n ->
-      let msg =
-        Printf.sprintf
-          "ERROR -- there should be one action.  I found %d.  Did you manually \
-           move some actions out of the pending directory?  Did you manually \
-           run actions?  Did you manually add actions?\n"
-          n
-      in
-      Error msg
-
-(* Given the name of an action file, get its associated git commit
-   template. *)
-let get_associated_template action =
-  let template =
-    Fname.make ~dir:(Fname.dir action) ~basename:(Fname.basename action)
-      ~suffix:(Some Constants.template_suffix)
-  in
-  match Sys.file_exists ~follow_symlinks:true (Fname.to_string template) with
-  | `Yes -> Ok template
-  | _ ->
-      let msg =
-        Printf.sprintf
-          "ERROR -- the associated template file for action '%s' should be \
-           '%s', but I cannot find it!"
-          (Fname.to_string action) (Fname.to_string template)
-      in
-      Error msg
-
-let run_action action =
-  let cmd = Printf.sprintf "bash '%s'" (Fname.to_string action) in
-  match Sys.command cmd with 0 -> Ok () | exit_code -> Error exit_code
-
-(* Convert pending fname to a completed fname *)
-let pending_to_completed fname =
-  Fname.update fname ~dir:Constants.completed_actions_dir
-
-let move ~source ~target =
-  Sys.rename (Fname.to_string source) (Fname.to_string target)
-
 let do_dry_run pending_action =
   print_endline
     (dry_run_msg
@@ -139,12 +85,12 @@ let do_dry_run pending_action =
        ~contents:(In_channel.read_all (Fname.to_string pending_action)))
 
 let do_real_run ~pending_action ~pending_template =
-  match run_action pending_action with
+  match Action.run_action pending_action with
   | Ok () ->
-      let completed_action = pending_to_completed pending_action in
-      let completed_template = pending_to_completed pending_template in
-      let () = move ~source:pending_action ~target:completed_action in
-      let () = move ~source:pending_template ~target:completed_template in
+      let completed_action = Utils.pending_to_completed pending_action in
+      let completed_template = Utils.pending_to_completed pending_template in
+      let () = Fname.move ~source:pending_action ~target:completed_action in
+      let () = Fname.move ~source:pending_template ~target:completed_template in
       Ok (real_run_msg ~pending_action ~completed_action ~completed_template)
   | Error exit_code ->
       let msg =
@@ -154,9 +100,9 @@ let do_real_run ~pending_action ~pending_template =
       Error (exit_code, msg)
 
 let main ~dry_run =
-  let pending_action = Utils.ok_or_abort (get_pending_action ()) in
+  let pending_action = Utils.ok_or_abort (Action.get_pending_action ()) in
   let pending_template =
-    Utils.ok_or_abort (get_associated_template pending_action)
+    Utils.ok_or_abort (Action.get_associated_template pending_action)
   in
   if dry_run then do_dry_run pending_action
   else
