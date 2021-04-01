@@ -92,10 +92,6 @@ let get_pending_action () =
   match Array.length pending_actions with
   | 1 ->
       let fname = Fname.of_string pending_actions.(0) in
-      let () =
-        Printf.printf "RYAN: %s --  %s\n\n\n" pending_actions.(0)
-          (Fname.to_string fname)
-      in
       Ok fname
   | n ->
       let msg =
