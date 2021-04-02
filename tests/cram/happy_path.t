@@ -19,6 +19,18 @@ Init project
   
       Initial commit
 
+Make sure the dirs are there.
+
+  $ ls "${WORK_D}/README.md"
+  *README.md (glob)
+  $ ls -a "${WORK_D}/.actions"
+  .
+  ..
+  completed
+  failed
+  ignored
+  pending
+
 Prepare a good command.
 
   $ "${CLN_EXE}" prepare 'printf "I like apple pie\n" > msg.txt'
@@ -36,6 +48,27 @@ Prepare a good command.
   ~~~ 
   
 (Don't forget those spaces in the above command!)
+
+Check that the action and template files are there.
+
+  $ ls "${WORK_D}/.actions/pending"
+  action__*.gc_template.txt (glob)
+  action__*.sh (glob)
+
+Check that the content is correct.
+
+  $ cat "${WORK_D}"/.actions/pending/action__*.gc_template.txt
+  PUT COMMIT MSG HERE.
+  
+  == Details ==
+  PUT DETAILS HERE.
+  
+  == Command(s) ==
+  /*printf "I like apple pie\n" > msg.txt (glob)
+  
+  
+  == Action file ==
+  action__*.sh (glob)
 
 Do the dry run (note the spaces again).
 
