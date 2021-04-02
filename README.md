@@ -110,3 +110,7 @@ cln.exe help
 ## Examples
 
 For some usage examples, see the cram tests in `<project root>/tests/cram`.  The `*.t` files are cram tests.  They look a bit weird at first but the walk through different scenarios of using the `cln.exe` CLI app.  Also, they are guaranteed to be up to date with whatever version of the code you're running since they are basically integration tests!
+
+## License
+
+Licensed under the Apache License, Version 2.0 or the MIT license, at your option. This program may not be copied, modified, or distributed except according to those terms.
