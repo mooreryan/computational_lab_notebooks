@@ -38,3 +38,5 @@ let exists f =
   | _ -> false
 
 let move ~source ~target = Sys.rename (to_string source) (to_string target)
+
+let delete f = Sys.remove (to_string f)

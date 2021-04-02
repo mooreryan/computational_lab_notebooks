@@ -5,12 +5,24 @@ let make_project_dirs () =
   let pending_actions_dir =
     Utils.deny_dirname_exists Constants.pending_actions_dir
   in
-  let complete_actions_dir =
+  let completed_actions_dir =
     Utils.deny_dirname_exists Constants.completed_actions_dir
+  in
+  let failed_actions_dir =
+    Utils.deny_dirname_exists Constants.failed_actions_dir
+  in
+  let ignored_actions_dir =
+    Utils.deny_dirname_exists Constants.ignored_actions_dir
   in
   let _git_dir = Utils.deny_dirname_exists ".git" in
 
-  [ actions_dir; pending_actions_dir; complete_actions_dir ]
+  [
+    actions_dir;
+    pending_actions_dir;
+    completed_actions_dir;
+    failed_actions_dir;
+    ignored_actions_dir;
+  ]
   |> List.iter ~f:Unix.mkdir
 
 let write_readme project_name =
