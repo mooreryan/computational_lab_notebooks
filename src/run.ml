@@ -75,7 +75,7 @@ let dry_run_msg ~action_fname ~contents =
       [
         ("action_fname", Jg_types.Tstr (Utils.bold action_fname));
         ("contents", Jg_types.Tstr (Utils.invert contents));
-        ("run_command", Jg_types.Tstr (Utils.bold "cln.exe run-action"));
+        ("run_command", Jg_types.Tstr (Utils.bold "cln.exe run"));
       ]
 
 let do_dry_run pending =

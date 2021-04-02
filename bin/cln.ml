@@ -3,8 +3,6 @@ open Cln_lib
 
 let version = "0.0.0"
 
-let run cmd = Command.run ~version ~build_info:"Version" cmd
-
 let init_command =
   Command.basic ~summary:"Initialize a new project"
     ~readme:(fun () -> "TODO")
@@ -19,7 +17,7 @@ let prepare_command =
       let%map_open action = anon ("action" %: string) in
       fun () -> Prepare.main action)
 
-let run_action_command =
+let run_command =
   Command.basic ~summary:"Run an action"
     ~readme:(fun () -> "TODO")
     Command.Let_syntax.(
@@ -27,7 +25,7 @@ let run_action_command =
         flag "-dry-run" no_arg
           ~doc:"Show what we will run, but don't actually run it."
       in
-      fun () -> Run_action.main ~dry_run)
+      fun () -> Run.main ~dry_run)
 
 let remove_command =
   (* Create a remove method argument parser. *)
@@ -55,8 +53,8 @@ let command =
     [
       ("init", init_command);
       ("prepare", prepare_command);
-      ("run-action", run_action_command);
+      ("run", run_command);
       ("remove", remove_command);
     ]
 
-let () = run command
+let () = Command.run ~version ~build_info:"Version" command

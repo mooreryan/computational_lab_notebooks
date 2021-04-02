@@ -25,7 +25,7 @@ let summary_msg ~action ~template =
         ("action", Jg_types.Tstr (Utils.bold (Fname.to_string action)));
         ("template", Jg_types.Tstr (Utils.bold (Fname.to_string template)));
         ( "check_action_command",
-          Jg_types.Tstr (Utils.bold "cln.exe run-action -dry-run") );
+          Jg_types.Tstr (Utils.bold "cln.exe run -dry-run") );
       ]
 
 (* If it is a executable on the path, expand it so it is clearer in

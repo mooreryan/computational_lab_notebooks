@@ -43,7 +43,7 @@ Prepare a good command.
   ~~~ * The git commit template file is: '\x1b[1m.actions/pending/action__*.gc_template.txt\x1b[0m' (esc) (glob)
   ~~~
   ~~~ Next, you should check the prepared action: 
-  ~~~   $ \x1b[1mcln.exe run-action -dry-run\x1b[0m (esc)
+  ~~~   $ \x1b[1mcln.exe run -dry-run\x1b[0m (esc)
   ~~~ 
   ~~~ 
   
@@ -72,7 +72,7 @@ Check that the content is correct.
 
 Do the dry run (note the spaces again).
 
-  $ "${CLN_EXE}" run-action -dry-run
+  $ "${CLN_EXE}" run -dry-run
   
   ~~~ 
   ~~~
@@ -87,13 +87,13 @@ Do the dry run (note the spaces again).
   \x1b[0m (esc)
   ~~~ 
   ~~~ If that looks good, you can run the action:
-  ~~~   $ \x1b[1mcln.exe run-action\x1b[0m (esc)
+  ~~~   $ \x1b[1mcln.exe run\x1b[0m (esc)
   ~~~ 
   ~~~ 
   
 And do the real run.
 
-  $ "${CLN_EXE}" run-action
+  $ "${CLN_EXE}" run
   
   ~~~
   ~~~
