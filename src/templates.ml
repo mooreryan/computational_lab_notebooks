@@ -13,7 +13,9 @@ PUT DETAILS HERE.
 == Action file ==
 %s
 |whatever}
-    action (Fname.name action_fname)
+    (* Strip because the action generally has extra trailing newline. *)
+    (String.strip action)
+    (Fname.name action_fname)
 
 let make_readme_data project_name =
   Printf.sprintf

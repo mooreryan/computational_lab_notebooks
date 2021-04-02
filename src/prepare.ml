@@ -4,19 +4,17 @@ open Jingoo
 let summary_msg ~action ~template =
   let () = assert (Utils.actions_and_templates_ok ~action ~template) in
   let s =
-    {heredoc|
-~~~ 
-~~~ 
+    {heredoc|~~~
+~~~
 ~~~ Hi!  I just prepared an action for you.
-~~~ 
+~~~
 ~~~ * The pending action is: '{{ action }}'
 ~~~ * The git commit template file is: '{{ template }}'
 ~~~
-~~~ Next, you should check the prepared action: 
+~~~ Next, you should check the prepared action:
 ~~~   $ {{ check_action_command }}
-~~~ 
-~~~ 
-|heredoc}
+~~~
+~~~|heredoc}
   in
   let env = { Jg_types.std_env with autoescape = false } in
   Jg_template.from_string ~env s

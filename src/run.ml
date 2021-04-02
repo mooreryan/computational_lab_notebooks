@@ -6,12 +6,11 @@ let real_run_msg ~pending_action ~completed_action ~completed_template =
   let completed_action = Fname.to_string completed_action in
   let completed_template = Fname.to_string completed_template in
   let s =
-    {heredoc|
-~~~
+    {heredoc|~~~
 ~~~
 ~~~ Hi!  I just ran an action for you.
 ~~~
-~~~ * The pending action was '{{ pending_action }}'.  
+~~~ * The pending action was '{{ pending_action }}'.
 ~~~ * The completed action is '{{ completed_action }}'.
 ~~~
 ~~~ Now, there are a couple of things you should do.
@@ -25,12 +24,12 @@ let real_run_msg ~pending_action ~completed_action ~completed_template =
 ~~~ * After adding files, commit changes using the template:
 ~~~     $ {{ git_commit }}
 ~~~
-~~~ After that you are good to go!  
-~~~ 
+~~~ After that you are good to go!
+~~~
 ~~~ * You can now check the logs with {{ git_log }},
 ~~~   or use a GUI like {{ gitk }} to view the history.
 ~~~
-|heredoc}
+~~~|heredoc}
   in
   let env = { Jg_types.std_env with autoescape = false } in
   Jg_template.from_string ~env s
@@ -51,23 +50,21 @@ let real_run_msg ~pending_action ~completed_action ~completed_template =
 
 let dry_run_msg ~action_fname ~contents =
   let s =
-    {heredoc|
-~~~ 
+    {heredoc|~~~
 ~~~
 ~~~ Hi!  I just previewed an action for you.
-~~~ 
-~~~ I plan to run this action file: 
+~~~
+~~~ I plan to run this action file:
 ~~~   '{{ action_fname }}'
-~~~ 
+~~~
 ~~~ It's contents are:
-~~~ 
+~~~
 {{ contents }}
-~~~ 
+~~~
 ~~~ If that looks good, you can run the action:
 ~~~   $ {{ run_command }}
-~~~ 
-~~~ 
-|heredoc}
+~~~
+~~~|heredoc}
   in
   let env = { Jg_types.std_env with autoescape = false } in
   Jg_template.from_string ~env s
