@@ -8,6 +8,7 @@ BASH_COMPLETION_D = /etc/bash_completion.d
 
 .PHONY: build
 .PHONY: check
+.PHONY: clean
 .PHONY: test
 .PHONY: test_happy_path
 .PHONY: test_remove
@@ -17,6 +18,9 @@ build:
 
 check:
 	dune build @check
+
+clean:
+	dune clean
 
 install:
 	dune install
