@@ -1,4 +1,5 @@
-(executables
- (names cln)
+(executable
+ (name cln)
+ (public_name cln)
  (libraries core cln_lib)
  (preprocess (pps ppx_jane)))
