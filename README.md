@@ -36,7 +36,7 @@ dune build
 Put the compiled binary somewhere on your path or set up a symbolic link to it.  For example:
 
 ```sh
-ln -s $(pwd)/_build/default/bin/cln.exe ${HOME}/bin/cln.exe
+ln -s $(pwd)/_build/default/bin/cln ${HOME}/bin/cln
 ```
 
 That created a symbolic link in `${HOME}/bin`, which is on my path.
@@ -104,12 +104,12 @@ eval $(opam env) && make test_all
 Check the help screen for usage info:
 
 ```
-cln.exe help
+cln help
 ```
 
 ## Examples
 
-For some usage examples, see the cram tests in `<project root>/tests/cram`.  The `*.t` files are cram tests.  They look a bit weird at first but the walk through different scenarios of using the `cln.exe` CLI app.  Also, they are guaranteed to be up to date with whatever version of the code you're running since they are basically integration tests!
+For some usage examples, see the cram tests in `<project root>/tests/cram`.  The `*.t` files are cram tests.  They look a bit weird at first but the walk through different scenarios of using the `cln` CLI app.  Also, they are guaranteed to be up to date with whatever version of the code you're running since they are basically integration tests!
 
 ## License
 
