@@ -3,21 +3,9 @@ Change into the work dir. (happy_path_d)
   $ rm -r "${WORK_D}"; mkdir "${WORK_D}"; cd "${WORK_D}"
   * (glob)
 
-Init project
+Init project (zero exit code will be a pass).
 
-  $ "${CLN_EXE}" init 'Happy Path'
-  Initialized empty Git repository in *happy_path_d/.git/ (glob)
-  init  (scanning for unlocked files...)
-  ok
-  (recording state in git...)
-  \[master \(root-commit\) [a-z0-9]{7}\] Initial commit (re)
-   1 file changed, [0-9]+ insertions\(\+\) (re)
-   create mode 100644 README.md
-  commit [a-z0-9]+ (re)
-  Author: * (glob)
-  Date:   * (glob)
-  * (glob)
-      Initial commit
+  $ "${CLN_EXE}" init 'Happy Path' >/dev/null 2>&1
 
 Make sure the dirs are there.
 
@@ -30,6 +18,7 @@ Make sure the dirs are there.
   failed
   ignored
   pending
+  $ ls "${WORK_D}/.git" >/dev/null
 
 Prepare a good command.
 
@@ -52,7 +41,7 @@ Check that the action and template files are there.
   action__*.gc_template.txt (glob)
   action__*.sh (glob)
 
-Check that the content is correct.
+Check that the template is correct.
 
   $ cat "${WORK_D}"/.actions/pending/action__*.gc_template.txt
   PUT COMMIT MSG HERE.
@@ -66,7 +55,12 @@ Check that the content is correct.
   == Action file ==
   action__*.sh (glob)
 
-Do the dry run (note the spaces again).
+Check that the action is correct.
+
+  $ cat "${WORK_D}"/.actions/pending/action__*.sh
+  /*/printf "I like apple pie\n" > msg.txt (glob)
+
+Do the dry run.
 
   $ "${CLN_EXE}" run -dry-run
   ~~~
@@ -85,6 +79,12 @@ Do the dry run (note the spaces again).
   ~~~   $ \x1b[1mcln run\x1b[0m (esc)
   ~~~
   ~~~
+
+Make sure that the job has NOT run.  No printing is pass.
+
+  $ cat msg.txt 2>/dev/null
+  [1]
+
 And do the real run.
 
   $ "${CLN_EXE}" run
@@ -113,18 +113,7 @@ And do the real run.
   ~~~
   ~~~
 
-Make sure the action actually ran.
-
-  $ git status
-  On branch master
-  Untracked files:
-    (use "git add <file>..." to include in what will be committed)
-  \t.actions/ (esc)
-  \tmsg.txt (esc)
-  * (glob)
-  nothing added to commit but untracked files present (use "git add" to track)
-
-And make sure the file output file from the action is correct.
+Make sure the action actually ran by checking output file.
 
   $ cat msg.txt
   I like apple pie

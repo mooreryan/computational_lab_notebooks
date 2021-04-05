@@ -10,7 +10,6 @@ Double check the setup was good.
   action__*.gc_template.txt (glob)
   action__*.sh (glob)
 
-
 Delete the prepared action.
 
   $ "${CLN_EXE}" remove -method delete
@@ -22,7 +21,7 @@ Delete the prepared action.
   ~~~
   ~~~ * Check which files have changed:
   ~~~     $ \x1b[1mgit status\x1b[0m (esc)
-  ~~~ * If you made a mistake, you can still get the files back with 
+  ~~~ * If you made a mistake, you can still get the files back with
   ~~~     $ \x1b[1mgit checkout \x1b[0m.actions/pending/action__*.sh (esc) (glob)
   ~~~     $ \x1b[1mgit checkout \x1b[0m.actions/pending/action__*.gc_template.txt (esc) (glob)
   ~~~ * If not, add actions and commit templates (I know it says add--it means "track this change with git"):
@@ -30,12 +29,12 @@ Delete the prepared action.
   ~~~ * After "adding" files, commit changes:
   ~~~     $ \x1b[1mgit commit\x1b[0m (esc)
   ~~~
-  ~~~ You should explain in the commit message why you needed to remove 
-  ~~~ the action.  It will help you later when you're going through the 
+  ~~~ You should explain in the commit message why you needed to remove
+  ~~~ the action.  It will help you later when you're going through the
   ~~~ git logs!
   ~~~
-  ~~~ After that you are good to go!  
-  ~~~ 
+  ~~~ After that you are good to go!
+  ~~~
   ~~~ * You can now check the logs with \x1b[1mgit log\x1b[0m, (esc)
   ~~~   or use a GUI like \x1b[1mgitk\x1b[0m to view the history. (esc)
   ~~~
@@ -68,18 +67,18 @@ Move the pending action to failed action directory.
   ~~~ * After "adding" files, commit changes:
   ~~~     $ \x1b[1mgit commit\x1b[0m (esc)
   ~~~
-  ~~~ You should explain in the commit message why you needed to remove 
-  ~~~ the action.  It will help you later when you're going through the 
+  ~~~ You should explain in the commit message why you needed to remove
+  ~~~ the action.  It will help you later when you're going through the
   ~~~ git logs!
   ~~~
-  ~~~ After that you are good to go!  
-  ~~~ 
+  ~~~ After that you are good to go!
+  ~~~
   ~~~ * You can now check the logs with \x1b[1mgit log\x1b[0m, (esc)
   ~~~   or use a GUI like \x1b[1mgitk\x1b[0m to view the history. (esc)
   ~~~
   ~~~
 
-Check that action has moved.
+Check that action has moved to the failed dir.
 
   $ ls "${WORK_D}/.actions/failed"
   action__*.gc_template.txt (glob)
@@ -108,12 +107,12 @@ And move it to the ignored directory.
   ~~~ * After "adding" files, commit changes:
   ~~~     $ \x1b[1mgit commit\x1b[0m (esc)
   ~~~
-  ~~~ You should explain in the commit message why you needed to remove 
-  ~~~ the action.  It will help you later when you're going through the 
+  ~~~ You should explain in the commit message why you needed to remove
+  ~~~ the action.  It will help you later when you're going through the
   ~~~ git logs!
   ~~~
-  ~~~ After that you are good to go!  
-  ~~~ 
+  ~~~ After that you are good to go!
+  ~~~
   ~~~ * You can now check the logs with \x1b[1mgit log\x1b[0m, (esc)
   ~~~   or use a GUI like \x1b[1mgitk\x1b[0m to view the history. (esc)
   ~~~

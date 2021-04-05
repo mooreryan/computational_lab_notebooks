@@ -40,12 +40,12 @@ let remove_msg new_action_f new_template_f =
 ~~~ * After "adding" files, commit changes:
 ~~~     $ {{ git_commit }}
 ~~~
-~~~ You should explain in the commit message why you needed to remove 
-~~~ the action.  It will help you later when you're going through the 
+~~~ You should explain in the commit message why you needed to remove
+~~~ the action.  It will help you later when you're going through the
 ~~~ git logs!
 ~~~
-~~~ After that you are good to go!  
-~~~ 
+~~~ After that you are good to go!
+~~~
 ~~~ * You can now check the logs with {{ git_log }},
 ~~~   or use a GUI like {{ gitk }} to view the history.
 ~~~
@@ -76,7 +76,7 @@ let delete_msg old_action =
 ~~~
 ~~~ * Check which files have changed:
 ~~~     $ {{ git_status }}
-~~~ * If you made a mistake, you can still get the files back with 
+~~~ * If you made a mistake, you can still get the files back with
 ~~~     $ {{ git_checkout_action }}
 ~~~     $ {{ git_checkout_template }}
 ~~~ * If not, add actions and commit templates (I know it says add--it means "track this change with git"):
@@ -84,12 +84,12 @@ let delete_msg old_action =
 ~~~ * After "adding" files, commit changes:
 ~~~     $ {{ git_commit }}
 ~~~
-~~~ You should explain in the commit message why you needed to remove 
-~~~ the action.  It will help you later when you're going through the 
+~~~ You should explain in the commit message why you needed to remove
+~~~ the action.  It will help you later when you're going through the
 ~~~ git logs!
 ~~~
-~~~ After that you are good to go!  
-~~~ 
+~~~ After that you are good to go!
+~~~
 ~~~ * You can now check the logs with {{ git_log }},
 ~~~   or use a GUI like {{ gitk }} to view the history.
 ~~~

@@ -1,0 +1,52 @@
+name: Build and test
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+        ocaml-version:
+          - 4.12.0
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - run: sudo apt-get update && sudo apt-get install -y git git-annex python3 python3-distutils
+
+      - run: pip install cram
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Use OCaml ${{ matrix.ocaml-version }}
+        uses: avsm/setup-ocaml@v1
+        with:
+          ocaml-version: ${{ matrix.ocaml-version }}
+
+      - run: opam pin add computational_lab_notebooks.dev . --no-action
+
+      - run: opam depext computational_lab_notebooks --yes --with-doc --with-test
+
+      - run: opam install . --deps-only --with-doc --with-test
+
+      - run: opam exec -- make
+
+      - run: opam exec -- make install
+
+      - run: opam exec -- make test
+
+      - name: Upload the build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.os }}-${{ matrix.ocaml-version }}-cln
+          path: _build/install/default/bin/cln
