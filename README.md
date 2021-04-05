@@ -1,5 +1,7 @@
 # Computational Lab Notebooks
 
+[![Build and test](https://github.com/mooreryan/computational_lab_notebooks/actions/workflows/build_and_test.yml/badge.svg)](https://github.com/mooreryan/computational_lab_notebooks/actions/workflows/build_and_test.yml)
+
 CLI app to help you manage your computational lab notebook using git
 and git annex.
 
