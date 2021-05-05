@@ -2,17 +2,21 @@ Make redaction helper.
 
   $ printf "sed -E 's~action__(.*).sh~action__REDACTED.sh~' | sed -E 's~action__(.*).gc_template.txt~action__REDACTED.gc_template.txt~'\n" > redact.sh
 
+Start in a clean directory.
+
+  $ mkdir WORKING_DIR && cd WORKING_DIR
+
 Set up.
 
   $ cln init something >/dev/null 2>&1
   $ cln prepare 'printf "I like apple pie\n" > msg.txt' >/dev/null 2>&1
-  $ ls .actions/pending | bash redact.sh
+  $ ls .actions/pending | bash ../redact.sh
   action__REDACTED.gc_template.txt
   action__REDACTED.sh
 
 Delete the prepared action.
 
-  $ cln remove -method delete | bash redact.sh
+  $ cln remove -method delete | bash ../redact.sh
   ~~~
   ~~~
   ~~~ Hi!  I just permanently deleted a pending action for you.
@@ -47,7 +51,7 @@ Check that the action is gone.
 Prepare another action and move it to the failed directory.
 
   $ cln prepare 'printf "I like apple pie\n" > msg.txt' >/dev/null 2>&1
-  $ cln remove -method fail | bash redact.sh
+  $ cln remove -method fail | bash ../redact.sh
   ~~~
   ~~~
   ~~~ Hi!  I just removed a pending action for you.
@@ -79,14 +83,14 @@ The action should now be in the "failed" directory and nothing should
 be in the pending directory.
 
   $ ls .actions/pending
-  $ ls .actions/failed | bash redact.sh
+  $ ls .actions/failed | bash ../redact.sh
   action__REDACTED.gc_template.txt
   action__REDACTED.sh
 
 Prep another action then move it to "ignored" directory.
 
   $ cln prepare 'printf "I like apple pie\n" > msg.txt' >/dev/null 2>&1
-  $ cln remove -method ignore | bash redact.sh
+  $ cln remove -method ignore | bash ../redact.sh
   ~~~
   ~~~
   ~~~ Hi!  I just removed a pending action for you.
@@ -117,6 +121,6 @@ Prep another action then move it to "ignored" directory.
 Check that the action has moved.
 
   $ ls .actions/pending
-  $ ls .actions/ignored | bash redact.sh
+  $ ls .actions/ignored | bash ../redact.sh
   action__REDACTED.gc_template.txt
   action__REDACTED.sh

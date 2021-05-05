@@ -1,5 +1,17 @@
 open! Core
 
+let abort_unless_start_dir_is_empty () =
+  let cwd = Sys.getcwd () in
+  let filenames = Sys.readdir cwd in
+  match Array.length filenames with
+  | 0 -> ()
+  | n ->
+      let names = String.concat (Array.to_list filenames) ~sep:", " in
+      Utils.abort
+        (Printf.sprintf
+           "ERROR -- Start dir '%s' should be empty, but found %d files: '%s'"
+           cwd n names)
+
 let make_project_dirs () =
   let actions_dir = Utils.deny_dirname_exists Constants.actions_dirname in
   let pending_actions_dir =
@@ -15,7 +27,6 @@ let make_project_dirs () =
     Utils.deny_dirname_exists Constants.ignored_actions_dir
   in
   let _git_dir = Utils.deny_dirname_exists ".git" in
-
   [
     actions_dir;
     pending_actions_dir;
@@ -45,6 +56,7 @@ let run_git_setup () =
   Utils.run_cmds_or_abort cmds
 
 let main project_name =
+  let () = abort_unless_start_dir_is_empty () in
   let () = make_project_dirs () in
   let () = write_readme project_name in
   run_git_setup ()

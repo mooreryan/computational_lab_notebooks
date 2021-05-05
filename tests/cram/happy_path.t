@@ -2,11 +2,15 @@ Make redaction helper.
 
   $ printf "sed -E 's~action__(.*).sh~action__REDACTED.sh~' | sed -E 's~action__(.*).gc_template.txt~action__REDACTED.gc_template.txt~'\n" > redact.sh
 
+Start in a clean directory.
+
+  $ mkdir WORKING_DIR && cd WORKING_DIR
+
 Initialize a new project.
 
-  $ cln init 'Happy Path' >OUT 2>&1
-  $ grep -iq 'Initialized empty Git repository' OUT
-  $ grep -iq 'Initial commit' OUT
+  $ cln init 'Happy Path' >../OUT 2>&1
+  $ grep -iq 'Initialized empty Git repository' ../OUT
+  $ grep -iq 'Initial commit' ../OUT
   $ grep -iq '# Happy Path' README.md
   $ ls >/dev/null 2>&1 .git
   $ ls -1 .actions
@@ -17,7 +21,7 @@ Initialize a new project.
 
 Prepare a good command.
 
-  $ cln prepare 'printf "I like apple pie\n" > msg.txt' | bash redact.sh
+  $ cln prepare 'printf "I like apple pie\n" > msg.txt' | bash ../redact.sh
   ~~~
   ~~~
   ~~~ Hi!  I just prepared an action for you.
@@ -29,12 +33,12 @@ Prepare a good command.
   ~~~   $ cln run -dry-run
   ~~~
   ~~~
-  $ ls .actions/pending | bash redact.sh
+  $ ls .actions/pending | bash ../redact.sh
   action__REDACTED.gc_template.txt
   action__REDACTED.sh
   $ cat .actions/pending/*.sh
   /usr/bin/printf "I like apple pie\n" > msg.txt
-  $ cat .actions/pending/*.gc_template.txt | bash redact.sh
+  $ cat .actions/pending/*.gc_template.txt | bash ../redact.sh
   PUT COMMIT MSG HERE.
   
   == Details ==
@@ -48,7 +52,7 @@ Prepare a good command.
 
 Do the dry run.
 
-  $ cln run -dry-run | bash redact.sh
+  $ cln run -dry-run | bash ../redact.sh
   ~~~
   ~~~
   ~~~ Hi!  I just previewed an action for you.
@@ -73,7 +77,7 @@ The job should not have run yet.
 
 Do the real run.
 
-  $ cln run | bash redact.sh
+  $ cln run | bash ../redact.sh
   ~~~
   ~~~
   ~~~ Hi!  I just ran an action for you.
