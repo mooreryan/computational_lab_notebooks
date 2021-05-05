@@ -22,7 +22,7 @@ check:
 clean:
 	dune clean
 
-install:
+install: build
 	dune install
 
 install_bash_completion:
@@ -31,15 +31,5 @@ install_bash_completion:
 uninstall:
 	dune uninstall
 
-test: build test_happy_path test_remove
-
-# Cramtests currently need the env vars prefixed with $(PWD).
-test_happy_path: build
-	CLN_EXE=$(PWD)/$(CLN_EXE) \
-	  WORK_D=$(PWD)/$(CRAM_D)/happy_path_d \
-	  $(CRAM_EXE) $(CRAM_D)/happy_path.t
-
-test_remove: build
-	CLN_EXE=$(PWD)/$(CLN_EXE) \
-	  WORK_D=$(PWD)/$(CRAM_D)/remove_d \
-	  $(CRAM_EXE) $(CRAM_D)/remove.t
+test:
+	dune runtest
