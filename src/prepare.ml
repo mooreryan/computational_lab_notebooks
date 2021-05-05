@@ -85,6 +85,7 @@ let deny_pending_actions_exist () =
       exit Exit_code.error
 
 let main action =
+  let () = Utils.abort_unless_in_cln_project_root () in
   (* First we ensure no pending stuff is left. *)
   let () = deny_pending_actions_exist () in
   let dir = Utils.assert_dirname_exists Constants.pending_actions_dir in

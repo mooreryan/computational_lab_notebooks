@@ -10,13 +10,22 @@ Try to remove an action before initializing a project and you get an
 error.
 
   $ cln remove -method delete
-  ERROR -- it doesn't look like you are in a cln project root directory
+  ERROR -- It doesn't look like you are in a cln project root directory.
+    * Did you run `cln init` first.
+    * Did you `cd` out of the project directory?
+    * Did you run this cln command in a subdirectory of the project root?
   [1]
   $ cln remove -method fail
-  ERROR -- it doesn't look like you are in a cln project root directory
+  ERROR -- It doesn't look like you are in a cln project root directory.
+    * Did you run `cln init` first.
+    * Did you `cd` out of the project directory?
+    * Did you run this cln command in a subdirectory of the project root?
   [1]
   $ cln remove -method ignore
-  ERROR -- it doesn't look like you are in a cln project root directory
+  ERROR -- It doesn't look like you are in a cln project root directory.
+    * Did you run `cln init` first.
+    * Did you `cd` out of the project directory?
+    * Did you run this cln command in a subdirectory of the project root?
   [1]
 
 Set up.

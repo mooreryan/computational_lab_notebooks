@@ -92,4 +92,8 @@ let abort_unless_in_cln_project_root () =
   | true -> ()
   | false ->
       abort
-        "ERROR -- it doesn't look like you are in a cln project root directory"
+        "ERROR -- It doesn't look like you are in a cln project root directory.\n\
+        \  * Did you run `cln init` first.\n\
+        \  * Did you `cd` out of the project directory?\n\
+        \  * Did you run this cln command in a subdirectory of the project \
+         root?"
