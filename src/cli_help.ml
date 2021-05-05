@@ -24,7 +24,7 @@ let run_readme () =
   readme
     {heredoc|
 If the run is successful, the pending action and the git commit
-will be moved in to the '<project_root>/.actions/pending'
+will be moved in to the '<project_root>/.actions/completed'
 directory.
 |heredoc}
 
