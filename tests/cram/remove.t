@@ -66,10 +66,12 @@ Delete the prepared action.
   ~~~
   ~~~ * Check which files have changed:
   ~~~     $ git status
-  ~~~ * If you made a mistake, you can still get the files back with
+  ~~~ * If you made a mistake, and you previously commited this pending
+        action, you can still get the files back with:
   ~~~     $ git checkout .actions/pending/action__REDACTED.sh
   ~~~     $ git checkout .actions/pending/action__REDACTED.gc_template.txt
-  ~~~ * If not, add actions and commit templates (I know it says add--it means "track this change with git"):
+  ~~~ * If not, add actions and commit templates (I know it says add--it
+        means "track this change with git"):
   ~~~     $ git add .actions
   ~~~ * After "adding" files, commit changes:
   ~~~     $ git commit
@@ -104,7 +106,8 @@ Prepare another action and move it to the failed directory.
   ~~~
   ~~~ * Check which files have changed:
   ~~~     $ git status
-  ~~~ * Add actions and commit templates (I know it says add--it means "track this change with git"):
+  ~~~ * Add actions and commit templates (I know it says add--it means
+        "track this change with git"):
   ~~~     $ git add .actions
   ~~~ * After "adding" files, commit changes:
   ~~~     $ git commit
@@ -143,7 +146,8 @@ Prep another action then move it to "ignored" directory.
   ~~~
   ~~~ * Check which files have changed:
   ~~~     $ git status
-  ~~~ * Add actions and commit templates (I know it says add--it means "track this change with git"):
+  ~~~ * Add actions and commit templates (I know it says add--it means
+        "track this change with git"):
   ~~~     $ git add .actions
   ~~~ * After "adding" files, commit changes:
   ~~~     $ git commit

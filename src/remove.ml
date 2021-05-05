@@ -35,7 +35,8 @@ let remove_msg new_action_f new_template_f =
 ~~~
 ~~~ * Check which files have changed:
 ~~~     $ {{ git_status }}
-~~~ * Add actions and commit templates (I know it says add--it means "track this change with git"):
+~~~ * Add actions and commit templates (I know it says add--it means
+      "track this change with git"):
 ~~~     $ {{ git_add }}
 ~~~ * After "adding" files, commit changes:
 ~~~     $ {{ git_commit }}
@@ -76,10 +77,12 @@ let delete_msg old_action =
 ~~~
 ~~~ * Check which files have changed:
 ~~~     $ {{ git_status }}
-~~~ * If you made a mistake, you can still get the files back with
+~~~ * If you made a mistake, and you previously commited this pending
+      action, you can still get the files back with:
 ~~~     $ {{ git_checkout_action }}
 ~~~     $ {{ git_checkout_template }}
-~~~ * If not, add actions and commit templates (I know it says add--it means "track this change with git"):
+~~~ * If not, add actions and commit templates (I know it says add--it
+      means "track this change with git"):
 ~~~     $ {{ git_add }}
 ~~~ * After "adding" files, commit changes:
 ~~~     $ {{ git_commit }}
