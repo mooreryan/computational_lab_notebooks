@@ -6,9 +6,50 @@ Start in a clean directory.
 
   $ mkdir WORKING_DIR && cd WORKING_DIR
 
+Try to remove an action before initializing a project and you get an
+error.
+
+  $ cln remove -method delete
+  ERROR -- it doesn't look like you are in a cln project root directory
+  [1]
+  $ cln remove -method fail
+  ERROR -- it doesn't look like you are in a cln project root directory
+  [1]
+  $ cln remove -method ignore
+  ERROR -- it doesn't look like you are in a cln project root directory
+  [1]
+
 Set up.
 
   $ cln init something >/dev/null 2>&1
+
+Try to remove an action before creating one and you get an error.
+
+  $ cln remove -method delete
+  ERROR -- there should be one action.  I found 0.
+    * Did you prepare an action before running this command?
+    * Did you manually move some actions out of the pending directory?
+    * Did you manually run actions?
+    * Did you manually add actions?
+  [1]
+  $ cln remove -method fail
+  ERROR -- there should be one action.  I found 0.
+    * Did you prepare an action before running this command?
+    * Did you manually move some actions out of the pending directory?
+    * Did you manually run actions?
+    * Did you manually add actions?
+  [1]
+  $ cln remove -method ignore
+  ERROR -- there should be one action.  I found 0.
+    * Did you prepare an action before running this command?
+    * Did you manually move some actions out of the pending directory?
+    * Did you manually run actions?
+    * Did you manually add actions?
+  [1]
+
+
+Now prepare an action.
+
   $ cln prepare 'printf "I like apple pie\n" > msg.txt' >/dev/null 2>&1
   $ ls .actions/pending | bash ../redact.sh
   action__REDACTED.gc_template.txt

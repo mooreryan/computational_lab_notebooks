@@ -71,3 +71,25 @@ let actions_and_templates_ok ~action ~template =
 (* Convert pending fname to a completed fname *)
 let pending_to_completed fname =
   Fname.update fname ~dir:Constants.completed_actions_dir
+
+let is_cln_project_root dirname =
+  let open Constants in
+  List.fold
+    [
+      actions_dirname;
+      pending_actions_dir;
+      completed_actions_dir;
+      failed_actions_dir;
+      ignored_actions_dir;
+      ".git";
+    ] ~init:true ~f:(fun acc name ->
+      let dir = Filename.concat dirname name in
+      match Sys.is_directory dir with `Yes -> acc && true | _ -> acc && false)
+
+let abort_unless_in_cln_project_root () =
+  let cwd = Sys.getcwd () in
+  match is_cln_project_root cwd with
+  | true -> ()
+  | false ->
+      abort
+        "ERROR -- it doesn't look like you are in a cln project root directory"

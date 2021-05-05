@@ -20,10 +20,11 @@ let get_pending_action () =
   | n ->
       let msg =
         Printf.sprintf
-          "ERROR -- there should be one action.  I found %d.  Did you manually \
-           move some actions out of the pending directory?  Did you manually \
-           run actions?  Did you manually add actions?\n"
-          n
+          "ERROR -- there should be one action.  I found %d.\n\
+          \  * Did you prepare an action before running this command?\n\
+          \  * Did you manually move some actions out of the pending directory?\n\
+          \  * Did you manually run actions?\n\
+          \  * Did you manually add actions?" n
       in
       Error msg
 

@@ -115,6 +115,7 @@ let delete_msg old_action =
       ]
 
 let main ~remove_method =
+  let () = Utils.abort_unless_in_cln_project_root () in
   let pending = Utils.ok_or_abort (Action.get_pending ()) in
   match remove_method with
   | Delete ->
@@ -130,5 +131,3 @@ let main ~remove_method =
         remove pending Constants.ignored_actions_dir
       in
       print_endline (remove_msg new_action_f new_template_f)
-
-(* START HERE...test this *)
