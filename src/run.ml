@@ -105,6 +105,7 @@ let do_real_run pending =
       Error (exit_code, msg)
 
 let main ~dry_run =
+  let () = Utils.abort_unless_in_cln_project_root () in
   let pending = Utils.ok_or_abort (Action.get_pending ()) in
   if dry_run then do_dry_run pending
   else
