@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Install deps (Linux)
-        run: sudo apt-get update && sudo apt-get install -y git git-annex python3 python3-distutils
+        run: sudo apt-get update && sudo apt-get install -y git git-annex
         if: matrix.os == 'ubuntu-latest'
 
       - name: Install deps (MacOS)
