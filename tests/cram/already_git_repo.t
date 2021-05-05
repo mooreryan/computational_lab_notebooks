@@ -1,6 +1,6 @@
 Set up a git repo.
 
-  $ git init >/dev/null
+  $ git init >/dev/null 2>&1
 
 Now this should give an error.
 
