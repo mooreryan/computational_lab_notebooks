@@ -82,7 +82,7 @@ let deny_pending_actions_exist () =
           "ERROR -- there are still pending actions.  You should run them \
            before preparing more.\n"
       in
-      exit 1
+      exit Exit_code.error
 
 let main action =
   (* First we ensure no pending stuff is left. *)

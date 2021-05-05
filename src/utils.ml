@@ -14,7 +14,7 @@ let assert_dirname_exists dirname =
           "ERROR -- Cannot find '%s' directory. Ary you at the project root?\n"
           dirname
       in
-      exit 2
+      exit Exit_code.error
 
 (* Returns a string if dirname exists, aborts otherwise. *)
 let deny_dirname_exists dirname =
@@ -22,14 +22,15 @@ let deny_dirname_exists dirname =
   | `No -> dirname
   | `Yes ->
       let () =
-        Printf.eprintf "ERROR -- directory '%s' already exists." dirname
+        Printf.eprintf "ERROR -- directory '%s' already exists.\n" dirname
       in
-      exit 2
+      exit Exit_code.error
   | `Unknown ->
       let () =
-        Printf.eprintf "ERROR -- I can't tell if directory '%s' exists." dirname
+        Printf.eprintf "ERROR -- I can't tell if directory '%s' exists.\n"
+          dirname
       in
-      exit 2
+      exit Exit_code.error
 
 let run_cmd_or_abort cmd =
   match Sys.command cmd with
@@ -40,11 +41,11 @@ let run_cmd_or_abort cmd =
 
 let run_cmds_or_abort cmds = List.iter cmds ~f:run_cmd_or_abort
 
-let abort ?(exit_code = 1) msg =
+let abort ?(exit_code = Exit_code.error) msg =
   let () = Printf.eprintf "%s\n" msg in
   exit exit_code
 
-let ok_or_abort ?(exit_code = 1) result =
+let ok_or_abort ?(exit_code = Exit_code.error) result =
   match result with Ok x -> x | Error msg -> abort ~exit_code msg
 
 let bold s = Printf.sprintf "\x1B[1m%s\x1B[0m" s
