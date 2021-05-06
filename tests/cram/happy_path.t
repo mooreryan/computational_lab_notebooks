@@ -37,7 +37,7 @@ Prepare a good command.
   action__REDACTED.gc_template.txt
   action__REDACTED.sh
   $ cat .actions/pending/*.sh
-  /usr/bin/printf "I like apple pie\n" > msg.txt
+  printf "I like apple pie\n" > msg.txt
   $ cat .actions/pending/*.gc_template.txt | bash ../redact.sh
   PUT COMMIT MSG HERE.
   
@@ -45,7 +45,7 @@ Prepare a good command.
   PUT DETAILS HERE.
   
   == Command(s) ==
-  /usr/bin/printf "I like apple pie\n" > msg.txt
+  printf "I like apple pie\n" > msg.txt
   
   == Action file ==
   action__REDACTED.sh
@@ -62,7 +62,7 @@ Do the dry run.
   ~~~
   ~~~ It's contents are:
   ~~~
-  /usr/bin/printf "I like apple pie\n" > msg.txt
+  printf "I like apple pie\n" > msg.txt
   
   ~~~
   ~~~ If that looks good, you can run the action:

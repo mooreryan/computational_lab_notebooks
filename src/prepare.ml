@@ -25,31 +25,13 @@ let summary_msg ~action ~template =
         ("check_action_command", Jg_types.Tstr (Utils.bold "cln run -dry-run"));
       ]
 
-(* If it is a executable on the path, expand it so it is clearer in
-   the commit messages. *)
-let try_expand_exe_path arg =
-  (* Ignore empty things or things that start with a '-' as those are
-     probably flags. *)
-  if String.length arg = 0 || Char.(String.get arg 0 = '-') then arg
-  else
-    let cmd = Printf.sprintf "which %s" (Sys.quote arg) in
-    let in_chan = Unix.open_process_in cmd in
-    let cmd_full_path = Stdio.In_channel.input_all in_chan |> String.strip in
-    match Unix.close_process_in in_chan with
-    (* Success means it's a command so return the expanded version *)
-    | Ok _ -> cmd_full_path
-    (* Error means it is not a command on the path. So don't expand it. *)
-    | Error _ -> arg
+(* As of now, it just ensures the command ends in a newline. *)
+let prep_command cmd =
+  match String.is_suffix cmd ~suffix:"\n" with
+  | true -> cmd
+  | false -> cmd ^ "\n"
 
-let expand_command cmd =
-  let cmd' =
-    String.split ~on:' ' cmd
-    |> List.map ~f:try_expand_exe_path
-    |> String.concat ~sep:" "
-  in
-  (* Ensure we have a newline. *)
-  cmd' ^ "\n"
-
+(* Returns the name of the file. *)
 let write_action_file ~dir ~data ~now =
   let basename = Utils.action_basename data now in
   let fname =
@@ -91,8 +73,10 @@ let main action =
   let dir = Utils.assert_dirname_exists Constants.pending_actions_dir in
   (* Now actually set up the action. *)
   let now = Utils.now () in
-  let action_data = expand_command action in
-  let action = write_action_file ~dir ~data:action_data ~now in
-  let template_data = Templates.make_template_data action_data action in
+  let action_data = prep_command action in
+  let action_file_name = write_action_file ~dir ~data:action_data ~now in
+  let template_data =
+    Templates.make_template_data action_data action_file_name
+  in
   let template = write_template_file ~dir ~template_data ~now ~action_data in
-  print_endline (summary_msg ~action ~template)
+  print_endline (summary_msg ~action:action_file_name ~template)

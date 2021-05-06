@@ -15,3 +15,23 @@ error.
     * Did you `cd` out of the project directory?
     * Did you run this cln command in a subdirectory of the project root?
   [1]
+
+Now, set up a project and prepare an action.
+
+  $ cln init Project >/dev/null 2>&1
+  $ cln prepare 'printf "say hi\n"' | bash ../redact.sh
+  ~~~
+  ~~~
+  ~~~ Hi!  I just prepared an action for you.
+  ~~~
+  ~~~ * The pending action is: '.actions/pending/action__REDACTED.sh'
+  ~~~ * The git commit template file is: '.actions/pending/action__REDACTED.gc_template.txt'
+  ~~~
+  ~~~ Next, you should check the prepared action:
+  ~~~   $ cln run -dry-run
+  ~~~
+  ~~~
+  $ cat .actions/pending/*.sh
+  printf "say hi\n"
+
+
