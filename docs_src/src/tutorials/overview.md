@@ -1,7 +1,3 @@
----
-canonical_url: https://mooreryan.github.io/computational_lab_notebooks/tutorials/overview/
----
-
 # Examples & Tutorials
 
 In this section, we will go over a couple of tutorials to help you get

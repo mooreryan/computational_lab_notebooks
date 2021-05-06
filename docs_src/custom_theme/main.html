@@ -13,8 +13,8 @@
     {% set description = page.meta.description %}
   {% endif %}
 
-  {% if page and page.meta.canonical_url %}
-    {% set canonical_url = page.meta.canonical_url %}
+  {% if page and page.canonical_url %}
+    {% set canonical_url = page.canonical_url %}
   {% endif %}
 
 
@@ -29,7 +29,6 @@
 <meta name="twitter:description" content="{{ description }}">
 
 <meta property="og:url" content="{{ canonical_url }}">
-<link rel="canonical" href="{{ canonical_url }}">
 
 <meta property="og:locale" content="en_US">
 

@@ -1,6 +1,5 @@
 ---
 description: Instructions for installing cln, the command line app that helps you set up and manage computational lab notebooks using git and git-annex.
-canonical_url: https://mooreryan.github.io/computational_lab_notebooks/installation/
 ---
 
 # Installation

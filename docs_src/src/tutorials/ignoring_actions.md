@@ -1,6 +1,5 @@
 ---
 description: In this tutorial, we demonstrate how to ignore previously prepared actions using the cln command line app for computational lab notebooks.
-canonical_url: https://mooreryan.github.io/computational_lab_notebooks/tutorials/ignoring_actions/
 ---
 
 # Ignoring actions
