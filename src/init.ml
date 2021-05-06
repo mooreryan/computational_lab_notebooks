@@ -37,12 +37,9 @@ let make_project_dirs () =
   |> List.iter ~f:Unix.mkdir
 
 let write_readme project_name =
-  (* TODO abort if readme exists. *)
   Out_channel.write_all "README.md"
     ~data:(Templates.make_readme_data project_name)
 
-(* You don't want to run git add . if there are files already in the
-   directory.TODO *)
 let run_git_setup () =
   let cmds =
     [
