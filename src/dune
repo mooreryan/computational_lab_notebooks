@@ -1,3 +1,7 @@
 (library
  (name cln_lib)
+ (instrumentation
+  (backend bisect_ppx
+           --bisect-file /tmp/cln_coverage/cln_coverage
+           --bisect-silent /tmp/cln_coverage/cln_coverage.log))
  (libraries core jingoo))
