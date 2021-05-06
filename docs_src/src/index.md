@@ -1,3 +1,7 @@
+---
+canonical_url: https://mooreryan.github.io/computational_lab_notebooks/
+---
+
 # Computational Lab Notebooks
 
 [![code on GitHub](https://img.shields.io/badge/code-GitHub-blue)](https://github.com/mooreryan/computational_lab_notebooks) [![Build and test](https://github.com/mooreryan/computational_lab_notebooks/actions/workflows/build_and_test.yml/badge.svg)](https://github.com/mooreryan/computational_lab_notebooks/actions/workflows/build_and_test.yml) [![GitHub issues](https://img.shields.io/github/issues/mooreryan/computational_lab_notebooks)](https://github.com/mooreryan/computational_lab_notebooks/issues)

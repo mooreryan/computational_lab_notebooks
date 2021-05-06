@@ -1,5 +1,6 @@
 ---
 description:  Git is a powerful tool for tracking changes in a repository.  The cln app uses git and git-annex to help you manage your computational lab notebook.  This tutorial should be enough info to help you get started with git.
+canonical_url: https://mooreryan.github.io/computational_lab_notebooks/git/
 ---
 
 # Just Enough Git

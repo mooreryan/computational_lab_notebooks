@@ -1,5 +1,6 @@
 ---
 description: In this tutorial, we show how to manage your computational lab notebook by using the cln command line to correct actions that failed.
+canonical_url: https://mooreryan.github.io/computational_lab_notebooks/tutorials/correcting_failed_actions/
 ---
 
 # Correcting failed actions

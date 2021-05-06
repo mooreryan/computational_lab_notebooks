@@ -1,5 +1,6 @@
 ---
 description: In this basic tutorial, we demonstrate how to use the cln command line app to manage you computational lab notebooks using git and git-annex.
+canonical_url: https://mooreryan.github.io/computational_lab_notebooks/tutorials/basic_usage/
 ---
 
 # Basic Usage Tutorial
