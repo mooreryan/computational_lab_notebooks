@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Ryan Moore">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Usage - Computational Lab Notebooks</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Usage";
+    var mkdocs_page_input_path = "usage.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+
+  
+
+<meta property="og:site_name" content="Usage - Computational Lab Notebooks" />
+
+<meta property="og:type" content="website">
+
+<meta property="og:title" content="Usage - Computational Lab Notebooks">
+
+<meta property="description" content="Instructions for using cln, the command line app that helps you set up and manage computational lab notebooks using git and git-annex.">
+<meta property="og:description" content="Instructions for using cln, the command line app that helps you set up and manage computational lab notebooks using git and git-annex.">
+<meta name="twitter:description" content="Instructions for using cln, the command line app that helps you set up and manage computational lab notebooks using git and git-annex.">
+
+<meta property="og:url" content="None">
+
+<meta property="og:image" content="ogp.png">
+<meta name="twitter:image" content="ogp.png">
+
+<meta property="og:locale" content="en_US">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Usage - Computational Lab Notebooks">
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Computational Lab Notebooks</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Computational Lab Notebooks</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Getting Started</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Usage</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#initialize-a-new-project">Initialize a new project</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#usage_1">Usage</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#example">Example</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#notes">Notes</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#prepare-an-action">Prepare an action</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#usage_2">Usage</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#example_1">Example</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#what-files-were-created">What files were created?</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#notes_1">Notes</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#run-an-action">Run an action</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#dry-run">Dry run</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#a-note-on-exit-codes">A note on exit codes</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#how-to-fix-it">How to fix it</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#if-you-really-want-a-multi-command-bash-script">If you really want a multi-command bash script</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#remove-an-action">Remove an action</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#deleting-failing-or-ignoring-actions">Deleting, failing, or ignoring actions</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#specifying-the-method">Specifying the method</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#saving-the-results-in-the-git-repo">Saving the results in the git repo</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#manually-removing-actions">Manually removing actions</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../git/">Just Enough Git</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Examples & Tutorials</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../tutorials/overview/">Overview</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../tutorials/basic_usage/">Basic usage</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../tutorials/correcting_failed_actions/">Correcting failed actions</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../tutorials/ignoring_actions/">Ignoring actions</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Computational Lab Notebooks</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Getting Started &raquo;</li>
+        
+      
+    
+    <li>Usage</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="usage">Usage</h1>
+<p>The four main commands are</p>
+<ul>
+<li><a href="#initialize-a-new-project"><code>cln init</code></a> -- initialize a new project</li>
+<li><a href="#prepare-an-action"><code>cln prepare</code></a> -- prepare an action</li>
+<li><a href="#run-an-action"><code>cln run</code></a> -- run an action</li>
+<li><a href="#remove-an-action"><code>cln remove</code></a> -- remove an action</li>
+</ul>
+<p>Check the help screen for usage info:</p>
+<pre><code>$ cln help
+Computational Lab Notebooks
+
+  cln SUBCOMMAND
+
+CLI to help you manage a lab notbook with git and git-annex.
+
+=== subcommands ===
+
+  init     Initialize a new project
+  prepare  Prepare an action
+  remove   Remove a pending action
+  run      Run an action
+  version  print version information
+  help     explain a given subcommand (perhaps recursively)
+</code></pre>
+<h2 id="initialize-a-new-project">Initialize a new project</h2>
+<p>To initialize a new project/lab notebook use <code>cln init</code>.  The <code>cln</code>
+app is a wrapper on <code>git</code> and <code>git-annex</code>, so your project lives in a
+certain directory.  That directory is the one in which you run the
+<code>cln init</code> command!</p>
+<p>There is nothing magical about the <code>cln init</code> command.  It sets up the
+required directories, makes a <code>README.md</code> file, and then sets up a new
+<code>git</code> and <code>git-annex</code> repository.</p>
+<p>After you run <code>cln init</code>, you are ready to start getting some real
+work done!</p>
+<h3 id="usage_1">Usage</h3>
+<p>To view the usage screen, run <code>cln help init</code> or <code>cln init -help</code>.</p>
+<pre><code>$ cln help init
+Initialize a new project
+
+  cln init PROJECT_NAME
+
+=== info ===
+
+Initialize a new computational lab notebook project using git and
+git-annex.
+
+For more info, see https://mooreryan.github.io/cln_docs/
+
+=== flags ===
+
+  [-help]  print this help text and exit
+           (alias: -?)
+</code></pre>
+<h3 id="example">Example</h3>
+<p>First make a new directory and <code>cd</code> into it.</p>
+<pre><code>$ mkdir my_project &amp;&amp; cd my_project
+</code></pre>
+<p>Then initialize a new project called <code>My Project</code>.</p>
+<pre><code>$ cln init 'My Project'
+</code></pre>
+<p>Notice how I put the <code>My Project</code> bit inside single quote characters
+(<code>'</code>)?  If your project name has spaces, you need to remember to quote
+it!</p>
+<h3 id="notes">Notes</h3>
+<ul>
+<li>If you run <code>cln init</code> in a directory that already has a git
+  repository, you will get an error.</li>
+</ul>
+<h2 id="prepare-an-action">Prepare an action</h2>
+<p>To prepare an action or command to run, use the <code>cln prepare</code> command.</p>
+<p>This creates a new action file (i.e., bash script) and a git commit
+template in the <code>&lt;project_root&gt;/.actions/pending</code> directory.</p>
+<p>When I say "action", I just mean, something (e.g., a shell script)
+that will change the state of the repository (aka your lab notebook).
+The reason we formalize these things as actions is that it makes it a
+lot easier to figure out what happened in your project/repository a
+couple of months down the line when you come back to it.</p>
+<h3 id="usage_2">Usage</h3>
+<p>To vier the usage screen, run <code>cln help prepare</code> or <code>cln prepare
+-help</code>.</p>
+<pre><code>$ cln help prepare
+Prepare an action
+
+  cln prepare ACTION
+
+=== info ===
+
+Generates an action file and a git commit template in the
+'&lt;project_root&gt;/.actions/pending' directory.
+
+For more info, see https://mooreryan.github.io/cln_docs/
+
+=== flags ===
+
+  [-help]  print this help text and exit
+           (alias: -?)
+
+</code></pre>
+<h3 id="example_1">Example</h3>
+<p>Prepare a shell command to run:</p>
+<pre><code>$ cln prepare 'echo &quot;hello, world&quot; &gt; hello.txt'
+</code></pre>
+<p>Rather than running <code>echo "hello, world" &gt; hello.txt</code> yourself,
+"preparing" the command sets it up so that you have a way to run the
+command that makes it easier to remember what you did a few
+months/years down the line.</p>
+<h4 id="what-files-were-created">What files were created?</h4>
+<h5 id="action-file">Action file</h5>
+<p>You have the action file (aka bash script):</p>
+<pre><code>$ cat .actions/pending/action__262765981__2021-04-09_14:54:48.sh
+/usr/bin/echo &quot;hello, world&quot; &gt; hello.txt
+</code></pre>
+<p>The first weird number in the file name is a hash code representing
+the contents of the file.  The second is the date and time in which
+you prepared the command.</p>
+<h5 id="commit-template">Commit template</h5>
+<p>And you have the git commit template.  Git <a href="https://git-scm.com/docs/git-commit#Documentation/git-commit.txt---templateltfilegt">commit
+templates</a>
+are a nice way to help you write good commit messages with as little
+annoyance as possible.</p>
+<pre><code>$ cat .actions/pending/action__262765981__2021-04-09_14:54:48.gc_template.txt
+PUT COMMIT MSG HERE.
+
+== Details ==
+PUT DETAILS HERE.
+
+== Command(s) ==
+/usr/bin/echo &quot;hello, world&quot; &gt; hello.txt
+
+== Action file ==
+action__262765981__2021-04-09_14:54:48.sh
+</code></pre>
+<p>Notice how the prepared action and the action file are automatically
+included in the commit template?  This is really helpful for when
+you're going back searching through the commit logs.  It will give you
+context of the exact command that was run connected with the exact
+changes it produced in any of the files included in your repository.</p>
+<p>After you run the action, add the changes to git and then go to
+actually commit the changes, you can use the commit template like
+this:</p>
+<pre><code>$ git commit -t .actions/pending/action__262765981__2021-04-09_14:54:48.gc_template.txt
+</code></pre>
+<p>This will open up a text editor with the contents of that file.  Then
+you just have to edit the summary message and the details.  For the
+summary, just put a short &lt; 50 character explanation of what you did.
+For the details, try and put as much info and context as you will need
+to figure out what you did and why you did it.  Basically, you should
+put the sort of things here that you would be putting in your lab
+notebook anyway.</p>
+<h3 id="notes_1">Notes</h3>
+<p>If you try and prepare an action when there is already a pending
+action, you will get an error.  It's set up this way to encourage you
+to set up a single action, run it (which then changes the state of
+your repository, then commit those changes to the repository.  So it's
+like 1 action &lt;=&gt; 1 commit.</p>
+<h2 id="run-an-action">Run an action</h2>
+<p>To run an action, use the <code>cln run</code> command.</p>
+<p>This will look for a valid pending action, and if it finds one, runs
+it with <code>bash</code>.  If it succeeds, then the program will also move the
+action into the <code>&lt;project_root&gt;/.actions/completed</code> directory.</p>
+<ul>
+<li>You will get an error if there are no pending actions.</li>
+<li>If there are more than one pending action, you will also get an
+  error.</li>
+<li>The <code>cln prepare</code> command won't let you make more than one pending
+    action.</li>
+<li>But even if you make an extra "by-hand" with the format exactly
+    correct, the <code>cln run</code> command still won't let you run it if there
+    are more than one.</li>
+</ul>
+<h3 id="dry-run">Dry run</h3>
+<p>To do a "dry run", i.e., to have the <code>cln prepare</code> program just tell
+you what it will do without actually running any actions, you can use
+the <code>-dry-run</code> flag.  Here is an example:</p>
+<pre><code>$ cln run -dry-run
+</code></pre>
+<p>You will see some useful output.  Check it out and make sure it looks
+good.  If so, then you can run the action.</p>
+<p>While the <code>-dry-run</code> is totally optional, I recommend that you do a
+dry run before running the action so you can check that you haven't
+made any obvious mistakes!</p>
+<h3 id="a-note-on-exit-codes">A note on exit codes</h3>
+<p>To determine wether an action has failed or succeeded, we check the exit codes.</p>
+<ul>
+<li>Exit code of <code>0</code> means success.</li>
+<li>Any other exit code means failure.</li>
+</ul>
+<p>Let's say that you prepared an action to run some bash script that you
+have written like this:</p>
+<pre><code class="language-sh">printf &quot;Starting script!\n&quot;
+
+## This command will fail.
+cat this_file_doesnt_exist.txt &gt; new_file.txt
+
+## But the script will keep going and run this, which will succeed.
+printf &quot;All done!\n&quot;
+</code></pre>
+<p>If you ran this at the command line with bash, you would get this:</p>
+<pre><code>$ bash silly.sh
+Starting script!
+cat: this_file_doesnt_exist.txt: No such file or directory
+All done!
+</code></pre>
+<p>Do you think it "succeeded"?  Let's check the exit code.</p>
+<pre><code>$ echo $?
+0
+</code></pre>
+<p>According to the exit code, yes, the script as a whole succeeded.  But
+if you check the contents of <code>new_file.txt</code> you will see that it is
+empty, which is probably not what you wanted!  So what happened is
+that an intermediate command failed, but given the way the script was
+written, the script as a whole succeeded.</p>
+<h4 id="how-to-fix-it">How to fix it</h4>
+<p>This is something you will want to watch out for.  If this were run as
+an action by <code>cln run</code>, the <code>cln</code> program would consider this program
+a success and move the action into the <code>completed</code> directory.</p>
+<p>If you have scripts like this that run lots of commands, you should
+consider breaking them up.  That way you stick to the one action, one
+commit principal mentioned above.</p>
+<h4 id="if-you-really-want-a-multi-command-bash-script">If you really want a multi-command bash script</h4>
+<p>In some cases, you may need more than one command, e.g., when
+something only makes sense if something succeeds first.  In that case,
+you can join the commands with <code>&amp;&amp;</code>.  Let's try that on the previous
+example.</p>
+<pre><code class="language-sh">printf &quot;Starting script!\n&quot; &amp;&amp; \
+  cat this_file_doesnt_exist.txt &gt; new_file.txt &amp;&amp; \
+  printf &quot;All done!\n&quot;
+</code></pre>
+<p>And run that.</p>
+<pre><code>$ bash silly2.sh
+Starting script!
+cat: this_file_doesnt_exist.txt: No such file or directory
+</code></pre>
+<p>See how the last <code>printf</code> command was not run?  Let's check the exit
+code again.</p>
+<pre><code>$ echo $?
+1
+</code></pre>
+<p>That's a failing exit code.  So, the <code>cln run</code> program would consider
+that script to have failed.</p>
+<h2 id="remove-an-action">Remove an action</h2>
+<p>Sometimes you need to remove pending actions:</p>
+<ul>
+<li>You made a mistake when prepping the action.</li>
+<li>You don't need that action anymore.</li>
+<li>There was an error when running the action.</li>
+<li>Whatever!</li>
+</ul>
+<p>The point is that you sometimes will want to delete actions!  The way
+that the <code>cln</code> program currently works is that you can only ever have
+one pending action at a time.  So if you have messed something up and
+need to get rid of the action, you will need to remove it.  To do
+this, we use the <code>cln remove</code> program.</p>
+<h3 id="deleting-failing-or-ignoring-actions">Deleting, failing, or ignoring actions</h3>
+<p>There are three ways to "remove" a pending action:</p>
+<ul>
+<li>Deleting it</li>
+<li>Marking it as "failed" (aka failing the action)</li>
+<li>Marking it as "ignored" (aka ignoring the action)</li>
+</ul>
+<p>Of these three only deleting truly deletes the action data.  (And even
+then, if you've already checked it into your git repository you will
+still be able to get it back.)</p>
+<p>"Failing" an action means moving the action (and its associated git
+commit template) out of the <code>.actions/pending</code> directory and into the
+<code>.actions/failed</code> directory.</p>
+<p>"Ignoring" an action is similar to "failing" an action except that the
+pending action is moved to the <code>.actions/ignored</code> directory rather
+than the <code>.actions/failed</code> directory.</p>
+<p>The reason for this distinction is to help you when you're going back
+through your history and commit logs.  I.e., it will give you more
+context as to why a pending action was no longer necessary.</p>
+<h3 id="specifying-the-method">Specifying the method</h3>
+<p>You specify the method you want to use with the <code>-method</code> flag like
+this</p>
+<ul>
+<li>Delete: <code>cln remove -method delete</code></li>
+<li>Fail: <code>cln remove -method fail</code></li>
+<li>Ignore: <code>cln remove -method ignore</code></li>
+</ul>
+<h3 id="saving-the-results-in-the-git-repo">Saving the results in the git repo</h3>
+<p>After you run the <code>cln remove</code> command you will see some output
+suggesting how to proceed.  You may see something like this:</p>
+<pre><code>~~~ * Check which files have changed:
+~~~     $ git status
+~~~ * Add actions and commit templates (I know it says add--it means &quot;track this change with git&quot;):
+~~~     $ git add .actions
+~~~ * After &quot;adding&quot; files, commit changes:
+~~~     $ git commit
+</code></pre>
+<p>As you can see, you still need to let <code>git</code> know that you have moved
+the actions around and commit the changes.</p>
+<h3 id="manually-removing-actions">Manually removing actions</h3>
+<p>Like many of the <code>cln</code> commands, you <em>could</em> just do this "by-hand".
+Currently, the <code>cln remove</code> command is a pretty thin wrapper around
+what you would probably do by hand, but it does give you some nice
+messages on what you may want to do next and it does some sanity
+checking on your pending actions to make sure nothing has gotten crazy
+in the meantime.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../git/" class="btn btn-neutral float-right" title="Just Enough Git">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../installation/" class="btn btn-neutral" title="Installation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../installation/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../git/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

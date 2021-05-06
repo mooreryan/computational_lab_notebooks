@@ -1,0 +1,21 @@
+site_name: Computational Lab Notebooks
+nav:
+  - Computational Lab Notebooks: index.md
+  - Getting Started:
+    - Installation: installation.md
+    - Usage: usage.md
+    - Just Enough Git: git.md
+  - Examples & Tutorials:
+    - Overview: tutorials/overview.md
+    - Basic usage: tutorials/basic_usage.md
+    - Correcting failed actions: tutorials/correcting_failed_actions.md
+    - Ignoring actions: tutorials/ignoring_actions.md
+theme:
+  name: readthedocs
+  custom_dir: custom_theme
+site_description: Documentation for installing and using cln, a command line program to help you set up and manage a computational lab notebook using git and git-annex.
+site_author: Ryan Moore
+markdown_extensions:
+  - meta
+docs_dir: src
+site_dir: ../docs

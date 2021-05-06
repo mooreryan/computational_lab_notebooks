@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Ryan Moore">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Installation - Computational Lab Notebooks</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Installation";
+    var mkdocs_page_input_path = "installation.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+
+  
+
+<meta property="og:site_name" content="Installation - Computational Lab Notebooks" />
+
+<meta property="og:type" content="website">
+
+<meta property="og:title" content="Installation - Computational Lab Notebooks">
+
+<meta property="description" content="Instructions for installing cln, the command line app that helps you set up and manage computational lab notebooks using git and git-annex.">
+<meta property="og:description" content="Instructions for installing cln, the command line app that helps you set up and manage computational lab notebooks using git and git-annex.">
+<meta name="twitter:description" content="Instructions for installing cln, the command line app that helps you set up and manage computational lab notebooks using git and git-annex.">
+
+<meta property="og:url" content="None">
+
+<meta property="og:image" content="ogp.png">
+<meta name="twitter:image" content="ogp.png">
+
+<meta property="og:locale" content="en_US">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Installation - Computational Lab Notebooks">
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Computational Lab Notebooks</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Computational Lab Notebooks</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Getting Started</span></p>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Installation</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#install-git-and-git-annex">Install git and git-annex</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#linux">Linux</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#macos">macOS</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#install-a-pre-compiled-binary">Install a pre-compiled binary</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#install-from-source">Install from source</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#set-up-ocaml">Set up OCaml</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#get-the-cln-source-code">Get the cln source code</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#set-up-bash-completion-optional">Set up bash completion (optional)</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#no-sudo-or-custom-completion-directory">No sudo or custom completion directory</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#run-tests-optional">Run tests (optional)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#uninstall">Uninstall</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#if-you-installed-from-source">If you installed from source</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#if-you-installed-a-precompiled-binary">If you installed a precompiled binary</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#if-you-installed-bash-completions">If you installed bash completions</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../usage/">Usage</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../git/">Just Enough Git</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Examples & Tutorials</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../tutorials/overview/">Overview</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../tutorials/basic_usage/">Basic usage</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../tutorials/correcting_failed_actions/">Correcting failed actions</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../tutorials/ignoring_actions/">Ignoring actions</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Computational Lab Notebooks</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Getting Started &raquo;</li>
+        
+      
+    
+    <li>Installation</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="installation">Installation</h1>
+<p>The <code>cln</code> app requires you have
+<a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">git</a>
+and <a href="https://git-annex.branchable.com/install/">git-annex</a> installed
+and set-up on your computer.</p>
+<p>Additionally, if you want to build the app from source, you will need
+OCaml, opam, and dune.</p>
+<h2 id="install-git-and-git-annex">Install git and git-annex</h2>
+<p><a href="https://git-scm.com/">Git</a> and
+<a href="https://git-annex.branchable.com/">git-annex</a> are required.  See the
+links for installation instructions.</p>
+<p>If you want to install them from source or in an specific way, check
+out the sites linked above.  If not, you can just use the package
+manager.</p>
+<h3 id="linux">Linux</h3>
+<p>You can install them with your package manager, e.g.: <code>sudo apt-get
+install git git-annex</code>.</p>
+<h3 id="macos">macOS</h3>
+<p>You can install them with Homebrew: <code>brew install git git-annex</code>.</p>
+<h2 id="install-a-pre-compiled-binary">Install a pre-compiled binary</h2>
+<p>This is the easiest way to install the <code>cln</code> program.</p>
+<ul>
+<li>Go to the <a href="https://github.com/mooreryan/computational_lab_notebooks/releases/">releases page on
+  GitHub</a>.</li>
+<li>Download the zip file for either macOS or Linux, depending on your
+  OS.</li>
+<li>Unzip the file.</li>
+<li>It should have one file <code>cln</code>.  Move this to somewhere on your PATH,
+  e.g., <code>/usr/local/bin</code> or <code>$HOME/.local/bin</code>.</li>
+<li>If all goes well, you should be able to run the <code>cln</code> program.  Try
+  it out with <code>cln help</code>.</li>
+</ul>
+<h2 id="install-from-source">Install from source</h2>
+<p>Installing from source isn't <em>too</em> hard.  The problem is that you
+probably don't already have OCaml installed on your computer, so you
+will have to install that first.</p>
+<p>*Note that you don't actually have to install from source.  You can
+use the <a href="https://github.com/mooreryan/computational_lab_notebooks/releases/">precompiled
+binaries</a>
+instead.</p>
+<h3 id="set-up-ocaml">Set up OCaml</h3>
+<ul>
+<li>First <a href="https://dev.realworldocaml.org/install.html">install OCaml</a>.
+  That guide is long, but you just need to do the parts for setting up
+  and configuring opam.</li>
+<li><a href="http://opam.ocaml.org/doc/Install.html#Using-your-distribution-39-s-package-system">Install
+    opam</a>
+    using your package manager.</li>
+<li>Initialize opam with <code>opam init</code> command.</li>
+<li>You may want to install the latest OCaml compiler: <code>opam switch
+    create 4.12.0 &amp;&amp; eval $(opam env)</code>.</li>
+<li>Next, install the required libraries: <code>opam install dune core
+  jingoo</code>.  Note that you may need to run <code>eval $(opam env)</code> again
+  after this.</li>
+</ul>
+<h3 id="get-the-cln-source-code">Get the cln source code</h3>
+<p>Download the source code (assuming you have git installed):</p>
+<pre><code class="language-sh">git clone https://github.com/mooreryan/computational_lab_notebooks.git
+cd computational_lab_notebooks.git
+make &amp;&amp; make install
+</code></pre>
+<p>Check that the <code>cln</code> program is now on your path.</p>
+<pre><code class="language-sh">which cln # should print out something like this: /home/ryan/.opam/4.12.0/bin/cln
+</code></pre>
+<h2 id="set-up-bash-completion-optional">Set up bash completion (optional)</h2>
+<p>To activate bash completions for your current shell session, source
+the file:</p>
+<pre><code class="language-sh">. utils/cln_bash_completion.s
+</code></pre>
+<p>If you want to install the bash completions (e.g., for future
+sessions), run:</p>
+<pre><code class="language-sh">sudo make install_bash_completion
+</code></pre>
+<p>This installs the bash completions to <code>/etc/bash_completion.d</code>.</p>
+<h3 id="no-sudo-or-custom-completion-directory">No sudo or custom completion directory</h3>
+<p>If you don't have <code>sudo</code> or you want to install the bash completions
+somewhere else, you can set the <code>BASH_COMPLETION_D</code> environment
+vabiable like this:</p>
+<pre><code class="language-sh">make BASH_COMPLETION_D=${HOME}/Desktop/silly_completions install_bash_completion
+</code></pre>
+<p>That would install them to <code>${HOME}/Desktop/silly_completions</code>.  Of
+course, you would need to ensure that they are automatically sourced
+in that directory!</p>
+<h2 id="run-tests-optional">Run tests (optional)</h2>
+<p>It's always nice to run tests locally.  If you have a working OCaml
+and Dune installation (see above), you can use <code>make</code> to run the
+tests.</p>
+<pre><code class="language-sh">make test
+</code></pre>
+<p>Note that, if you installed OCaml for the first time, and you haven't
+closed and re-opended your shell, you may still need to setup the opam
+environment:</p>
+<pre><code class="language-sh">eval $(opam env) &amp;&amp; make test
+</code></pre>
+<h2 id="uninstall">Uninstall</h2>
+<h3 id="if-you-installed-from-source">If you installed from source</h3>
+<p>If you installed with the <a href="#install-from-source">above
+procedure</a>, you can run</p>
+<pre><code class="language-sh">make uninstall &amp;&amp; make clean
+</code></pre>
+<p>to uninstall the program.  If you also installed the bash completions,
+don't forget to delete those as well.</p>
+<h3 id="if-you-installed-a-precompiled-binary">If you installed a precompiled binary</h3>
+<p>All you have to do is remove the binary!</p>
+<h3 id="if-you-installed-bash-completions">If you installed bash completions</h3>
+<p>Just remove the bash completions file.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../usage/" class="btn btn-neutral float-right" title="Usage">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href=".." class="btn btn-neutral" title="Computational Lab Notebooks"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../usage/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

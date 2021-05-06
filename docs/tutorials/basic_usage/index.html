@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Ryan Moore">
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>Basic usage - Computational Lab Notebooks</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../../css/theme.css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Basic usage";
+    var mkdocs_page_input_path = "tutorials/basic_usage.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+
+  
+
+<meta property="og:site_name" content="Basic usage - Computational Lab Notebooks" />
+
+<meta property="og:type" content="website">
+
+<meta property="og:title" content="Basic usage - Computational Lab Notebooks">
+
+<meta property="description" content="In this basic tutorial, we demonstrate how to use the cln command line app to manage you computational lab notebooks using git and git-annex.">
+<meta property="og:description" content="In this basic tutorial, we demonstrate how to use the cln command line app to manage you computational lab notebooks using git and git-annex.">
+<meta name="twitter:description" content="In this basic tutorial, we demonstrate how to use the cln command line app to manage you computational lab notebooks using git and git-annex.">
+
+<meta property="og:url" content="None">
+
+<meta property="og:image" content="ogp.png">
+<meta name="twitter:image" content="ogp.png">
+
+<meta property="og:locale" content="en_US">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Basic usage - Computational Lab Notebooks">
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Computational Lab Notebooks</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../..">Computational Lab Notebooks</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Getting Started</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../../installation/">Installation</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../usage/">Usage</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../../git/">Just Enough Git</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Examples & Tutorials</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../overview/">Overview</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Basic usage</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#set-up-your-project">Set up your project</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#prepare-a-command">Prepare a command</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#pending-action-file">Pending action file</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#git-commit-template">Git commit template</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#running-pending-actions">Running pending actions</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#preview-the-run">Preview the run</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#actually-running-the-action">Actually running the action</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#checking-git-status">Checking git status</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#add-actions-files-to-git-repository">Add .actions files to git repository</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#add-other-files-with-git-annex">Add other files with git-annex</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#commiting-the-changes">Commiting the changes</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#reading-the-history">Reading the history</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#wrap-up">Wrap up</a>
+    </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../correcting_failed_actions/">Correcting failed actions</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../ignoring_actions/">Ignoring actions</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Computational Lab Notebooks</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Examples & Tutorials &raquo;</li>
+        
+      
+    
+    <li>Basic usage</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="basic-usage-tutorial">Basic Usage Tutorial</h1>
+<p>(Note anything starting with a <code>$</code> means that is a command that you
+have to run at the command prompt.  Anything below a command is the
+output of that command.)</p>
+<p>Let's walk through a simple example.  We won't do anything complicated
+or interesting in this example, and we won't talk <em>too</em> much about
+<em>why</em> you would want to use this in the first place.  It will be just
+to show you how the mechanics of using the <code>cln</code> app might work.</p>
+<p>I'm going to assume that you already have <code>git</code>, <code>git-annex</code>, and
+<code>cln</code> installed and ready to go.  If you don't, take a look at the
+<a href="../../installation/">install page</a>.</p>
+<h2 id="set-up-your-project">Set up your project</h2>
+<p>First thing to do is to set up a "project".  I'm going to be calling
+it a project, but really it is just a directory with a git repository
+where you are going to do some computational lab work that you need to
+remeber the steps of things that you did.</p>
+<p>So make a directory for our project and <code>cd</code> into that directory.</p>
+<pre><code>$ mkdir -p ~/projects/cln_example &amp;&amp; cd ~/projects/cln_example
+</code></pre>
+<p>Next, we need to initialize the project.  Let's call it <code>Example
+Project</code>.</p>
+<pre><code>$ cln init 'Example Project'
+</code></pre>
+<p>You should see some output showing some stuff about initializing an
+empty git repository and an initial commit.  The <code>cln init</code> program is
+simply a wrapper around setting up a <code>git</code> and <code>git-annex</code> repository
+in this directory and then commiting in some of the folders and
+boilerplate stuff that will be used for preparing and running jobs
+later.</p>
+<p>Let's see what was created.  (If you don't have the <code>tree</code> command,
+you can install it like so <code>sudo apt-get install tree</code>).</p>
+<pre><code>$ tree -a -I .git
+.
+├── .actions
+│   ├── completed
+│   ├── failed
+│   ├── ignored
+│   └── pending
+└── README.md
+</code></pre>
+<p>There is a <code>README.md</code> file with some basic info, and a couple of
+folders for "actions".  Actions are what we call things that we want
+to run and track in our lab notebook.  You can see directories for
+pending, completed, failed, and ignored actions.  We will talk about
+each of them later.</p>
+<h2 id="prepare-a-command">Prepare a command</h2>
+<p><code>cln prepare</code> is used to "prepare" commands that you want to run.  As
+with all of this, you don't <em>need</em> to use the <code>cln</code> program--you could
+just use git and git-annex directly--but going through the <code>cln</code>
+program will help you set up things to make everything a little easier
+to reproduce and track what is going on when you come back to your
+project after a couple months of working on something else.</p>
+<p>Let's set up a silly command that we want to run.  We are going to use
+the <code>printf</code> command to write some text into a file.  If we were to
+run it at the command prompt with out anything fancy it would look
+something like this:</p>
+<pre><code>$ printf &quot;I like apple pie\n&quot; &gt; msg.txt
+</code></pre>
+<p>And of course, you can check the output of that.</p>
+<pre><code>$ cat msg.txt
+I like apple pie
+</code></pre>
+<p>Okay, let's delete that file for now since we don't need it.</p>
+<pre><code>$ rm msg.txt
+</code></pre>
+<p>Now, preparing a command is simple.  You just take whatever you were
+going to run at the command prompt, put that in single quotes (if
+you're command has single quotes, you will need to escape them), and
+pass that as the first argument to the <code>cln prepare</code> command like
+this:</p>
+<pre><code>$ cln prepare 'printf &quot;I like apple pie\n&quot; &gt; msg.txt'
+~~~
+~~~
+~~~ Hi!  I just prepared an action for you.
+~~~
+~~~ * The pending action is: '.actions/pending/action__460986084__2021-04-05_18:02:37.sh'
+~~~ * The git commit template file is: '.actions/pending/action__460986084__2021-04-05_18:02:37.gc_template.txt'
+~~~
+~~~ Next, you should check the prepared action:
+~~~   $ cln run -dry-run
+~~~
+~~~
+</code></pre>
+<p>You man see slightly different output than that, but the gist should
+be the same.  As you can see, the <code>cln prepare</code> program created a
+pending action and a git commit template.  (You'll see why the git
+commit template is helpful in a bit.)  Let's take a look at those
+files.</p>
+<h3 id="pending-action-file">Pending action file</h3>
+<pre><code>$ cat '.actions/pending/action__460986084__2021-04-05_18:02:37.sh'
+/usr/bin/printf &quot;I like apple pie\n&quot; &gt; msg.txt
+</code></pre>
+<p>As you see, it is just a bash script with the comman you would have
+run at the command prompt by hand, except with the command stuck into
+a little script for easy reference later.  You'll see that the title
+of the action file has some extra info, the date the action was
+created and <code>460986084</code>, which is a hash of the contents.  The
+contents hash can be helpful when you're scanning through action files
+to see if you've run the same commands more than once.</p>
+<h3 id="git-commit-template">Git commit template</h3>
+<p>Now let's check out the git commit template file that was generated.</p>
+<pre><code>$ cat '.actions/pending/action__460986084__2021-04-05_18:02:37.gc_template.txt'
+PUT COMMIT MSG HERE.
+
+== Details ==
+PUT DETAILS HERE.
+
+== Command(s) ==
+/usr/bin/printf &quot;I like apple pie\n&quot; &gt; msg.txt
+
+== Action file ==
+action__460986084__2021-04-05_18:02:37.sh
+</code></pre>
+<p>You can see that is has some sections in there for commit summary,
+details, the command that was/will be run, and the name of the action
+file that had the command.  We will see how this helps us a bit later
+in the tutorial.</p>
+<h2 id="running-pending-actions">Running pending actions</h2>
+<p>Now that we have created a pending action, we want to run it.  To do
+that, we use <code>cln run</code>.</p>
+<h3 id="preview-the-run">Preview the run</h3>
+<p>Before actually running the action, it is a good idea to preview it
+first with the <code>-dry-run</code> option.</p>
+<pre><code>$ cln run -dry-run
+~~~
+~~~
+~~~ Hi!  I just previewed an action for you.
+~~~
+~~~ I plan to run this action file:
+~~~   '.actions/pending/action__460986084__2021-04-05_18:02:37.sh'
+~~~
+~~~ It's contents are:
+~~~
+/usr/bin/printf &quot;I like apple pie\n&quot; &gt; msg.txt
+
+~~~
+~~~ If that looks good, you can run the action:
+~~~   $ cln run
+~~~
+~~~
+</code></pre>
+<p>You should see output similar to the above.  It basically just shows
+you the action that will be run, and the contents of the action file.</p>
+<p>You may be wondering what happens if you have more than one pending
+action.  Well, if you prepare actions through the <code>cln prepare</code>
+interface, you are not allowed to prepare more than one action at a
+time.  So it won't be a problem.  If you make an action file "by hand"
+outside of the <code>cln prepare</code> interface, and then attempt to run <code>cln
+run</code>, you will get an error about there being more than one action
+pending.  At some point, I may add the ability to have multiple
+pending actions, but for now, the program forces you to set up and run
+one action at a time, so the accompanying git commits and their
+messages will be clear and have a 1-to-1 relationship with the action
+that was run (i.e., one action -&gt; one commit).</p>
+<p>Alright, that action looks correct to me, so let's run it!</p>
+<h3 id="actually-running-the-action">Actually running the action</h3>
+<p>To run the action, just drop the <code>-dry-run</code> option from the command
+line.</p>
+<pre><code>$ cln run
+~~~
+~~~
+~~~ Hi!  I just ran an action for you.
+~~~
+~~~ * The pending action was '.actions/pending/action__460986084__2021-04-05_18:02:37.sh'.
+~~~ * The completed action is '.actions/completed/action__460986084__2021-04-05_18:02:37.sh'.
+~~~
+~~~ Now, there are a couple of things you should do.
+~~~
+~~~ * Check which files have changed:
+~~~     $ git status
+~~~ * Add actions and commit templates:
+~~~     $ git add .actions
+~~~ * Unless they are small, add other new files with git annex:
+~~~     $ git annex add blah blah blah...
+~~~ * After adding files, commit changes using the template:
+~~~     $ git commit -t '.actions/completed/action__460986084__2021-04-05_18:02:37.gc_template.txt'
+~~~
+~~~ After that you are good to go!
+~~~
+~~~ * You can now check the logs with git log,
+~~~   or use a GUI like gitk to view the history.
+~~~
+~~~
+</code></pre>
+<p>Alright our action was successfully ran!  There's a good amount of
+output there, so let's go through it a little bit.</p>
+<p>You will see the pending action that was run and the location
+of the completed action file.  We keep all these action files so that,
+in conjuction with the git logs, you can go back later and figure out
+what was done.</p>
+<p>Then, you should see some suggestions of what you may want to do next.</p>
+<h4 id="checking-git-status">Checking git status</h4>
+<p>First you want to check the <code>git status</code> and see what effect running
+the action has had on the state of your project.</p>
+<pre><code>$ git status
+On branch master
+Untracked files:
+  (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+    .actions/
+    msg.txt
+
+nothing added to commit but untracked files present (use &quot;git add&quot; to track)
+</code></pre>
+<p>(If you haven't used git before, you should probably check out a
+<a href="../../git/">basic tutorial</a> to get you up to speed.)</p>
+<p>Basically that is saying that some new files were created in the
+<code>.actions</code> directory and a new file called <code>msg.txt</code> was also created.
+The stuff in the <code>.actions</code> directory were the action and git commit
+template files, and the <code>msg.txt</code> file was what running the action
+actually created.  Check it out.</p>
+<pre><code>$ cat msg.txt
+I like apple pie
+</code></pre>
+<h3 id="add-actions-files-to-git-repository">Add .actions files to git repository</h3>
+<p>Next, we want to add the new template and action file to the git
+repository.</p>
+<p>We just use <code>git</code> for that.  This is the command to "add" all the
+changes in the <code>.actions</code> directory to our git repository.</p>
+<pre><code>$ git add .actions
+</code></pre>
+<p>Now if you check the status, you will see that change reflected:</p>
+<pre><code>$ git status
+On branch master
+Changes to be committed:
+  (use &quot;git restore --staged &lt;file&gt;...&quot; to unstage)
+    new file:   .actions/completed/action__460986084__2021-04-05_18:02:37.gc_template.txt
+    new file:   .actions/completed/action__460986084__2021-04-05_18:02:37.sh
+
+Untracked files:
+  (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+    msg.txt
+</code></pre>
+<p>You see how those action and template files are now ready to be
+commited but the <code>msg.txt</code> file is still "untracked"?</p>
+<p>Note also that we are currently on the "master" branch, which is the
+main branch in the repository.  This is mainly to keep things simple
+in the tutorial, but for real work, you would probably want to
+consider creating another branch to "do the work" in so that you can
+easily roll things back if it all goes horribly wrong.</p>
+<h3 id="add-other-files-with-git-annex">Add other files with git-annex</h3>
+<p>Next, the output suggests that we add any other changed files into the
+repository with <code>git-annex</code> unless they are small.  One problem with
+using <code>git</code> for your lab notebook is that it really wasn't designed to
+handle tracking giant files (like multi gb sequence files).  For this
+reason, we want to use <code>git-annex</code> to track the large files.  For this
+tutorial, the text file we created is really small, so we don't
+actually need <code>git-annex</code> but I will show you how to do it anyways.
+See the <a href="../../todo/">more realistic examples</a> for more information
+about why you probably want to use <code>git-annex</code>.</p>
+<pre><code>$ git annex add msg.txt
+git annex add msg.txt
+add msg.txt
+ok
+(recording state in git...)
+</code></pre>
+<p>Again, we will talk more about <code>git-annex</code> in another tutorial, but
+basically you're now tracking the <code>msg.txt</code> file in your project
+repository.  You can see for yourself with like this:</p>
+<pre><code>$ git status
+On branch master
+Changes to be committed:
+  (use &quot;git restore --staged &lt;file&gt;...&quot; to unstage)
+    new file:   .actions/completed/action__460986084__2021-04-05_18:02:37.gc_template.txt
+    new file:   .actions/completed/action__460986084__2021-04-05_18:02:37.sh
+    new file:   msg.txt
+</code></pre>
+<p>See now how all the files are in the "Changes to be commited" section?</p>
+<h3 id="commiting-the-changes">Commiting the changes</h3>
+<p>The last thing that the <code>cln run</code> output suggests that we do is to
+actually commit the changes.  This will store whatever happened in the
+project repository's history so we can track it later.  I will just
+copy and paste the suggusted command from the <code>cln run</code> output into
+the terminal and run it like so:</p>
+<pre><code>$ git commit -t '.actions/completed/action__460986084__2021-04-05_18:02:37.gc_template.txt'
+</code></pre>
+<p>Now you should see a text editor pop up with the following contents:</p>
+<pre><code>PUT COMMIT MSG HERE.
+
+== Details ==
+PUT DETAILS HERE.
+
+== Command(s) ==
+/usr/bin/printf &quot;I like apple pie\n&quot; &gt; msg.txt
+
+== Action file ==
+action__460986084__2021-04-05_18:02:37.sh
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch master
+# Changes to be committed:
+#   new file:   .actions/completed/action__460986084__2021-04-05_18:02:37.gc_template.txt
+#   new file:   .actions/completed/action__460986084__2021-04-05_18:02:37.sh
+#   new file:   msg.txt
+#
+</code></pre>
+<p>All you need to do now is to fill in a short summary message at the
+top (<a href="https://commit.style/">generally &lt; 50 characters</a>) and then fill
+in some details describing what you did and why you did it.  Don't
+skimp on the details section.  Put any context you need and that you
+would normally put in your lab notebook about what you did (e.g., any
+weird command line options, why you used the program you used, why you
+needed to run this command, etc.).  The summary and details will help
+you out later so make take your time and make them good!  Here's an
+example of what it might look like for our silly <code>printf</code> command.</p>
+<pre><code>Created the msg.txt file
+
+== Details ==
+I needed to create a file that describes something that I like.  I
+used the `printf` rather than `echo` because it is more portable.
+(See https://stackoverflow.com/a/11530298 for a discussion of this on
+stack overflow).
+
+== Command(s) ==
+/usr/bin/printf &quot;I like apple pie\n&quot; &gt; msg.txt
+
+== Action file ==
+action__460986084__2021-04-05_18:02:37.sh
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch master
+# Changes to be committed:
+#   new file:   .actions/completed/action__460986084__2021-04-05_18:02:37.gc_template.txt
+#   new file:   .actions/completed/action__460986084__2021-04-05_18:02:37.sh
+#   new file:   msg.txt
+#
+</code></pre>
+<p>See how I added some details in there to help me remember why I did
+what I did?  That's probably overkill for such a simple example, but
+it will be very helpful when coming back to more complicated commands
+in the future!</p>
+<p>After you finish writing, save it and exit your editor to complete the
+commit.  You will probably see some git specific output on your
+terminal when you do.  Something like this:</p>
+<pre><code>[master ebf7385] Created the msg.txt file
+ 3 files changed, 12 insertions(+)
+ create mode 100644 .actions/completed/action__460986084__2021-04-05_18:02:37.gc_template.txt
+ create mode 100644 .actions/completed/action__460986084__2021-04-05_18:02:37.sh
+ create mode 120000 msg.txt
+</code></pre>
+<p>Let's check the <code>git status</code> once more to make sure everything is okay.</p>
+<pre><code>$ git status
+On branch master
+nothing to commit, working tree clean
+</code></pre>
+<p>Alright, no problems!</p>
+<h2 id="reading-the-history">Reading the history</h2>
+<p>Now that we have prepared an action, run it, and commited the
+resulting changes in to our project's repository, we can take a look
+at the changes.</p>
+<p>The simplest way to do this is with the <code>git log</code> command.</p>
+<pre><code>$ git log
+commit ebf73855d2612ae3ddb899469994d95f2e49488e (HEAD -&gt; master)
+Author: Ryan Moore &lt;moorer@udel.edu&gt;
+Date:   Mon Apr 5 18:44:54 2021 -0400
+
+    Created the msg.txt file
+
+    == Details ==
+    I needed to create a file that describes something that I like.  I
+    used the `printf` rather than `echo` because it is more portable.
+    (See https://stackoverflow.com/a/11530298 for a discussion of this on
+    stack overflow).
+
+    == Command(s) ==
+    /usr/bin/printf &quot;I like apple pie\n&quot; &gt; msg.txt
+
+    == Action file ==
+    action__460986084__2021-04-05_18:02:37.sh
+
+commit 1a2e909f2455beedeff27311d18254e9dd574f0d
+Author: Ryan Moore &lt;moorer@udel.edu&gt;
+Date:   Mon Apr 5 17:43:50 2021 -0400
+
+    Initial commit
+</code></pre>
+<p>And you will see the last commit.</p>
+<p>You can use a GUI like <a href="https://git-scm.com/docs/gitk/">gitk</a> to get a
+more interesting view of your commit history as well as a list of all
+the files and changes that occured with each of the commits.</p>
+<p>This is where it all gets really powerful.  You can browse the changes
+in your repository one by one and see which actions were run to cause
+all of those changes.</p>
+<p><img alt="gitk example" src="../../images/basic_tutorial_gitk_example.png" /></p>
+<p>As you can see above, each commit is associated with the nice message
+template you filled out, as well as showing you which files were
+created and what changes occured in the repository.  Very nice!!</p>
+<h2 id="wrap-up">Wrap up</h2>
+<p>That's <em>most</em> of what you need to know to get started with using <code>cln</code>
+to help you manage your computation lab notebook with <code>git</code> and
+<code>git-annex</code>.  There are some more things to show you about deleting
+pending actions and using <code>git-annex</code> effectively, but that will be
+covered in <a href="../../todo/">other tutorials</a>.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../correcting_failed_actions/" class="btn btn-neutral float-right" title="Correcting failed actions">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../overview/" class="btn btn-neutral" title="Overview"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../overview/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../correcting_failed_actions/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

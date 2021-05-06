@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Ryan Moore">
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Just Enough Git - Computational Lab Notebooks</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Just Enough Git";
+    var mkdocs_page_input_path = "git.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  
+
+  
+    
+  
+
+  
+
+  
+    
+  
+
+  
+
+  
+
+<meta property="og:site_name" content="Just Enough Git - Computational Lab Notebooks" />
+
+<meta property="og:type" content="website">
+
+<meta property="og:title" content="Just Enough Git - Computational Lab Notebooks">
+
+<meta property="description" content="Git is a powerful tool for tracking changes in a repository.  The cln app uses git and git-annex to help you manage your computational lab notebook.  This tutorial should be enough info to help you get started with git.">
+<meta property="og:description" content="Git is a powerful tool for tracking changes in a repository.  The cln app uses git and git-annex to help you manage your computational lab notebook.  This tutorial should be enough info to help you get started with git.">
+<meta name="twitter:description" content="Git is a powerful tool for tracking changes in a repository.  The cln app uses git and git-annex to help you manage your computational lab notebook.  This tutorial should be enough info to help you get started with git.">
+
+<meta property="og:url" content="None">
+
+<meta property="og:image" content="ogp.png">
+<meta name="twitter:image" content="ogp.png">
+
+<meta property="og:locale" content="en_US">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Just Enough Git - Computational Lab Notebooks">
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Computational Lab Notebooks</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Computational Lab Notebooks</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Getting Started</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../usage/">Usage</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Just Enough Git</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#everyday-commands">Everyday Commands</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#how-to-get-help">How to get help</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#basic-git-workflow">Basic git workflow</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#what-is-an-index">What is an "index"?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#git-add-followed-by-more-edits">git-add followed by more edits</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#git-branches">Git Branches</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#create-a-new-git-repo">Create a new git repo</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#create-a-new-branch-and-do-some-work">Create a new branch and do some work</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#edit-the-file-in-the-work-branch">Edit the file in the work branch</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#commit-the-changes-in-the-work-branch">Commit the changes in the work branch</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#how-has-our-repository-changed">How has our repository changed</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#what-to-do-with-the-changes">What to do with the changes?</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#keep-the-changes-in-the-work-branch">Keep the changes in the work branch</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#get-rid-of-the-changes-in-the-work-branch">Get rid of the changes in the work branch</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#wrap-up">Wrap up</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#notes">Notes</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Examples & Tutorials</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../tutorials/overview/">Overview</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../tutorials/basic_usage/">Basic usage</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../tutorials/correcting_failed_actions/">Correcting failed actions</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../tutorials/ignoring_actions/">Ignoring actions</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Computational Lab Notebooks</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Getting Started &raquo;</li>
+        
+      
+    
+    <li>Just Enough Git</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="just-enough-git">Just Enough Git</h1>
+<p>The <code>cln</code> app helps you manage your computational lab notebook with
+<a href="https://git-scm.com/">git</a> and
+<a href="https://git-annex.branchable.com/">git-annex</a>.  While you still need
+to know some things about git and git-annex, you don't need <em>too</em> much
+-- as long as you're comfortable with some of the fundamentals, you
+should be good.</p>
+<h2 id="everyday-commands">Everyday Commands</h2>
+<p>Let's go through some <a href="https://git-scm.com/docs/everyday">everyday git
+commands</a>.</p>
+<pre><code>/tmp/example$ git --version
+git version 2.27.0
+</code></pre>
+<h3 id="how-to-get-help">How to get help</h3>
+<p>To get a basic overview of command git commands:</p>
+<pre><code>$ git help
+
+...prints out the help screen...
+</code></pre>
+<p>For more detailed help, use</p>
+<pre><code>$ git help -a
+
+...lots and lots of commands...
+</code></pre>
+<p>To get help with a specific commands do something like this:</p>
+<pre><code>$ git help add
+
+...shows help page for git-add
+
+$ git help checkout
+
+...shows help page for git-checkout
+</code></pre>
+<p>To get help with some of the most common git commands, run this:</p>
+<pre><code>$ git help everyday
+
+...shows useful commands...
+</code></pre>
+<h2 id="basic-git-workflow">Basic git workflow</h2>
+<p>Let's run through a basic example git workflow.  In this example, I
+will make a new project (git repository), make a <code>README.md</code>, make
+some fake reads in a fasta file, do some silly "quality control".</p>
+<p>Lines that start with <code>$</code> are commands that I ran.</p>
+<p>Initialize a new git repository.</p>
+<pre><code>$ git init
+Initialized empty Git repository in /tmp/example/.git/
+</code></pre>
+<p>Make a README file.</p>
+<pre><code>$ printf &quot;# My Cool Project
+&gt;
+&gt; This willl be a really fun project
+&gt; &quot; &gt; README.md
+</code></pre>
+<p>Add readme file contents to the "index".</p>
+<pre><code>$ git add README.md
+</code></pre>
+<p>Commit changes with message.</p>
+<pre><code>$ git commit -m &quot;Initial commit&quot;
+[master (root-commit) d93d073] Initial commit
+ 1 file changed, 3 insertions(+)
+ create mode 100644 README.md
+</code></pre>
+<p>Create and switch to a new branch called make-seqs.</p>
+<pre><code>$ git checkout -b make-seqs
+Switched to a new branch 'make-seqs'
+</code></pre>
+<p>Make a fasta file.</p>
+<pre><code>$ printf &quot;&gt;seq1
+&gt; ACTG
+&gt; &gt;seq2
+&gt; actg
+&gt; &quot; &gt; seqs.fa
+</code></pre>
+<p>Add the fasta file to the index.</p>
+<pre><code>$ git add seqs.fa
+</code></pre>
+<p>Commit the changes with a message.</p>
+<pre><code>$ git commit -m &quot;Make a fake seqs file&quot;
+[make-seqs 0748c17] Make a fake seqs file
+ 1 file changed, 4 insertions(+)
+ create mode 100644 seqs.fa
+</code></pre>
+<p>Switch back to the master branch.</p>
+<pre><code>$ git checkout master
+Switched to branch 'master'
+</code></pre>
+<p>Merge the changes in the make-seqs branch into the master branch.</p>
+<pre><code>$ git merge make-seqs
+Updating d93d073..0748c17
+Fast-forward
+ seqs.fa | 4 ++++
+ 1 file changed, 4 insertions(+)
+ create mode 100644 seqs.fa
+</code></pre>
+<p>Delete the make-seqs branch.</p>
+<pre><code>$ git branch -d make-seqs
+Deleted branch make-seqs (was 0748c17).
+</code></pre>
+<p>Create and switch to a new branch called qc.</p>
+<pre><code>$ git checkout -b qc
+Switched to a new branch 'qc'
+</code></pre>
+<p>Do some (fake) "quality control".</p>
+<pre><code>$ tr &quot;a&quot; &quot;N&quot; &lt; seqs.fa &gt; seqs.qc.fa
+</code></pre>
+<p>Add the changes/new file to the index.</p>
+<pre><code>$ git add seqs.qc.fa
+</code></pre>
+<p>Commit the changes with the given message.</p>
+<pre><code>$ git commit -m &quot;Run read QC&quot;
+[qc 6a8f070] Run read QC
+ 1 file changed, 4 insertions(+)
+ create mode 100644 seqs.qc.fa
+</code></pre>
+<p>Check the log to see what we have done.</p>
+<pre><code>$ git log --pretty=oneline
+6a8f070741e083de38cee9498123c984ee33d514 (HEAD -&gt; qc) Run read QC
+0748c17a80587f1e9f5832a1966c6d1ddb9960de (master) Make a fake seqs file
+d93d0735c7b05c5d69e80c5c68926e12be1744d8 Initial commit
+</code></pre>
+<p>Switch back to the master branch.</p>
+<pre><code>$ git checkout master
+Switched to branch 'master'
+</code></pre>
+<p>Okay, that quality control wasn't very good, just delete the qc branch
+like it never happened.</p>
+<pre><code>$ git branch -D qc
+Deleted branch qc (was 6a8f070).
+</code></pre>
+<p>Check the log...the "quality control" step is gone!</p>
+<pre><code>$ git log --pretty=oneline
+0748c17a80587f1e9f5832a1966c6d1ddb9960de (HEAD -&gt; master) Make a fake seqs file
+d93d0735c7b05c5d69e80c5c68926e12be1744d8 Initial commit
+</code></pre>
+<p>See...just readme and sequences.</p>
+<pre><code>$ ls
+README.md  seqs.fa
+</code></pre>
+<p>It's the file we made.</p>
+<pre><code>$ cat seqs.fa
+&gt;seq1
+ACTG
+&gt;seq2
+actg
+</code></pre>
+<h2 id="what-is-an-index">What is an "index"?</h2>
+<p>Here is what the <code>git-add</code> help file says about the "index":</p>
+<blockquote>
+<p>The "index" holds a snapshot of the content of the working tree, and
+it is this snapshot that is taken as the contents of the next
+commit. Thus after making any changes to the working tree, and before
+running the commit command, you must use the add command to add any
+new or modified files to the index.</p>
+</blockquote>
+<h2 id="git-add-followed-by-more-edits">git-add followed by more edits</h2>
+<p>If you run <code>git add some_file.txt</code>, then change the contents of
+<code>some_file.txt</code> again <em>before</em> commiting the changes, those new
+changes will not be reflected in the repository unless you run <code>git
+add some_file.txt</code> again before commiting.  Here is an example of what
+I mean:</p>
+<p>Edit the seqs file with nano.</p>
+<pre><code>$ nano seqs.fa
+</code></pre>
+<p>Show the difference from last commit.  I edited the first sequence
+name.  Lines that change have a <code>-</code> indicated the old version and a
+<code>+</code> indicated the new change.</p>
+<pre><code>$ git diff seqs.fa
+diff --git a/seqs.fa b/seqs.fa
+index 60129d5..53d21e0 100644
+--- a/seqs.fa
++++ b/seqs.fa
+@@ -1,4 +1,4 @@
+-&gt;seq1
++&gt;seq1_best_sequence
+ ACTG
+ &gt;seq2
+ actg
+</code></pre>
+<p>Add the changes to the index.</p>
+<pre><code>$ git add seqs.fa
+</code></pre>
+<p>Check the status.  The changes are now staged for the commit.</p>
+<pre><code>$ git status
+On branch master
+Changes to be committed:
+  (use &quot;git restore --staged &lt;file&gt;...&quot; to unstage)
+    modified:   seqs.fa
+</code></pre>
+<p>Edit the file again.</p>
+<pre><code>$ nano seqs.fa
+</code></pre>
+<p>Show the differences again.  I edited the second sequence name.</p>
+<pre><code>$ git diff seqs.fa
+diff --git a/seqs.fa b/seqs.fa
+index 53d21e0..c89e2ff 100644
+--- a/seqs.fa
++++ b/seqs.fa
+@@ -1,4 +1,4 @@
+ &gt;seq1_best_sequence
+ ACTG
+-&gt;seq2
++&gt;seq2_2nd_best
+ actg
+</code></pre>
+<p>Commit the staged changes (still just the first name change!)</p>
+<pre><code>$ git commit -m &quot;Edit the seqs file&quot;
+[master c5c5681] Edit the seqs file
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+</code></pre>
+<p>Check status.  See how there are still changes not staged for commit?
+That's because <code>git add</code> stages changes at the time you ran <code>git-add</code>.</p>
+<pre><code>$ git status
+On branch master
+Changes not staged for commit:
+  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git restore &lt;file&gt;...&quot; to discard changes in working directory)
+    modified:   seqs.fa
+
+no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
+</code></pre>
+<p>The changes are still there in the file though.</p>
+<pre><code>$ cat seqs.fa
+&gt;seq1_best_sequence
+ACTG
+&gt;seq2_2nd_best
+actg
+</code></pre>
+<p>Check the difference.  See how the 2nd header is different?</p>
+<pre><code>$ git diff seqs.fa
+diff --git a/seqs.fa b/seqs.fa
+index 53d21e0..c89e2ff 100644
+--- a/seqs.fa
++++ b/seqs.fa
+@@ -1,4 +1,4 @@
+ &gt;seq1_best_sequence
+ ACTG
+-&gt;seq2
++&gt;seq2_2nd_best
+ actg
+</code></pre>
+<p>Add the current changes to the index.</p>
+<pre><code>$ git add seqs.fa
+</code></pre>
+<p>Commit the changes.</p>
+<pre><code>$ git commit -m &quot;Change 2nd header&quot;
+[master 9454d4e] Change 2nd header
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+</code></pre>
+<p>Check the status...the working tree is clean, all changes have been
+commited.</p>
+<pre><code>$ git status
+On branch master
+nothing to commit, working tree clean
+</code></pre>
+<h2 id="git-branches">Git Branches</h2>
+<p>Git has branches to help you keep work isolated.  You generally have a
+main branch called <code>master</code> or <code>main</code>.  This is the "main" branch in
+the sense that it is the main access point for your repository or
+project.</p>
+<p>You can do all your work in the main branch, but if you make mistakes
+and need to roll back any changes, it can be harder than if you do all
+of your work in a separate branch (i.e., a "working" branch).</p>
+<p>Let's see a little example to show you what I mean.</p>
+<h3 id="create-a-new-git-repo">Create a new git repo</h3>
+<p>Make a new git repository, add and commit an example text file.</p>
+<pre><code>$ mkdir example &amp;&amp; cd example
+$ git init
+$ printf &quot;hello, world\n&quot; &gt; hello.txt
+$ git add . &amp;&amp; git commit -m &quot;Initial commit&quot;
+</code></pre>
+<p>Check the current branch.</p>
+<pre><code>$ git branch
+* master
+</code></pre>
+<p>See how we are on the master branch to start with?  Now, let's create
+and switch to a new branch.</p>
+<h3 id="create-a-new-branch-and-do-some-work">Create a new branch and do some work</h3>
+<pre><code>$ git checkout -b edit-hello
+Switched to a new branch 'edit-hello'
+</code></pre>
+<p>And now when we run <code>git branch</code> you can see we are on a different
+branch.</p>
+<pre><code>$ git branch
+* edit-hello
+  master
+</code></pre>
+<h4 id="edit-the-file-in-the-work-branch">Edit the file in the work branch</h4>
+<p>Now we will edit the <code>hello.txt</code> file in the new <code>edit-hello</code> branch
+we just created.</p>
+<pre><code>$ sed -i 's/l/L/g' hello.txt
+</code></pre>
+<p>That's the <a href="https://www.gnu.org/software/sed/manual/sed.html">sed</a>
+command.  If you haven't seen it, it is a stream editor.  All that
+command does is change every <code>l</code> to a <code>L</code> in the file.</p>
+<p>Now check the status of the repository.</p>
+<pre><code>$ git status
+On branch edit-hello
+Changes not staged for commit:
+  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git restore &lt;file&gt;...&quot; to discard changes in working directory)
+    modified:   hello.txt
+
+no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
+</code></pre>
+<p>It says that the <code>hello.txt</code> file has changed.  Let's check the
+changes now.</p>
+<pre><code>$ git diff hello.txt
+diff --git a/hello.txt b/hello.txt
+index 4b5fa63..09d7e19 100644
+--- a/hello.txt
++++ b/hello.txt
+@@ -1 +1 @@
+-hello, world
++heLLo, worLd
+</code></pre>
+<p>We can see that <code>hello, world</code> is now <code>heLLo, worLd</code>.  That's what we
+wanted so now we can commit the changes.</p>
+<h4 id="commit-the-changes-in-the-work-branch">Commit the changes in the work branch</h4>
+<pre><code>$ git add hello.txt
+$ git commit -m &quot;Swich lowercase 'l' to uppercase 'L'&quot;
+[edit-hello 27e542d] Swich lowercase 'l' to uppercase 'L'
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+</code></pre>
+<p>Just double check that the git repository is clean now.</p>
+<pre><code>$ git status
+On branch edit-hello
+nothing to commit, working tree clean
+</code></pre>
+<h3 id="how-has-our-repository-changed">How has our repository changed</h3>
+<p>So now we've done some work on the <code>edit-hello</code> branch, let's switch
+back to the <code>master</code> branch and see check the state of the repository.</p>
+<pre><code>$ git checkout master
+Switched to branch 'master'
+$ git status
+On branch master
+nothing to commit, working tree clean
+$ cat hello.txt
+hello, world
+</code></pre>
+<p>Whoa!  The <code>hello.txt</code> file is the same as it was before we switched
+branches and did all those changes.  Let's check the log.</p>
+<pre><code>git log --pretty=oneline
+8a5b9042705aff008dc396b385a3f03200e79647 (HEAD -&gt; master) Initial commit
+</code></pre>
+<p>See how that last commit isn't even listed?  Let's go back to the
+<code>edit-hello</code> branch and check the log there.</p>
+<pre><code>$ git checkout edit-hello
+Switched to branch 'edit-hello'
+$ git log --pretty=oneline
+27e542d2192c3b1807f14b2460118045d549d7f5 (HEAD -&gt; edit-hello) Swich lowercase 'l' to uppercase 'L'
+8a5b9042705aff008dc396b385a3f03200e79647 (master) Initial commit
+</code></pre>
+<p>Okay, both commits are still there.  Notice how the commit at the top
+says <code>(HEAD -&gt; edit-hello)</code> whereas the first commit says <code>(master)</code>?
+This is telling you that the commits are specific to certain branches.
+Just to reinforce this, we will switch back to <code>master</code> and look at
+the logs again.</p>
+<pre><code>$ git checkout master
+Switched to branch 'master'
+$ git log --pretty=oneline
+8a5b9042705aff008dc396b385a3f03200e79647 (HEAD -&gt; master) Initial commit
+</code></pre>
+<p>Back to one commit with <code>(HEAD -&gt; master)</code>.  And one more time, back
+to <code>edit-hello</code> branch.</p>
+<pre><code>$ git checkout edit-hello
+Switched to branch 'edit-hello'
+$ git log --pretty=oneline
+27e542d2192c3b1807f14b2460118045d549d7f5 (HEAD -&gt; edit-hello) Swich lowercase 'l' to uppercase 'L'
+8a5b9042705aff008dc396b385a3f03200e79647 (master) Initial commit
+</code></pre>
+<h3 id="what-to-do-with-the-changes">What to do with the changes?</h3>
+<p>Now we have two options.</p>
+<ul>
+<li>I like the changes in the <code>edit-hello</code> branch and want to make them
+  part of the <code>master</code> branch.</li>
+<li>I don't like the changes in the <code>edit-hello</code> branch and want to
+  forget about them.</li>
+</ul>
+<h4 id="keep-the-changes-in-the-work-branch">Keep the changes in the work branch</h4>
+<p>For the first, I need to merge the changes in the <code>edit-hello</code> branch
+into the <code>master</code> branch.  Let's do that now.</p>
+<pre><code>$ git branch
+* edit-hello
+  master
+$ git checkout master
+Switched to branch 'master'
+$ git branch
+  edit-hello
+* master
+$ git merge edit-hello
+Updating 8a5b904..27e542d
+Fast-forward
+ hello.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+$ git status
+On branch master
+nothing to commit, working tree clean
+$ git log --pretty=oneline
+27e542d2192c3b1807f14b2460118045d549d7f5 (HEAD -&gt; master, edit-hello) Swich lowercase 'l' to uppercase 'L'
+8a5b9042705aff008dc396b385a3f03200e79647 Initial commit
+$ cat hello.txt
+heLLo, worLd
+</code></pre>
+<p>See how the second commit is now in the git log and see how the
+<code>hello.txt</code> file has the changes?  Since the changes are fully merged,
+we can safely delete the <code>edit-hello</code> branch.</p>
+<pre><code>$ git branch -d edit-hello
+Deleted branch edit-hello (was 27e542d).
+$ git branch
+* master
+</code></pre>
+<p>And now the <code>edit-hello</code> branch is gone.</p>
+<h4 id="get-rid-of-the-changes-in-the-work-branch">Get rid of the changes in the work branch</h4>
+<p>What about the second option.  Let's say we don't really like the
+changes of the <code>edit-hello</code> branch, and we just want to get rid of
+them.  In that case we delete the branch <em>without</em> first merging the
+changes.</p>
+<p><em>(Note that the hash values have changed.  That's because, for this
+tutorial, I just deleted the whole repository and started over rather
+than bother rolling back the changes like I would do in a real
+repository.)</em></p>
+<p>First, make sure you are on the <code>master</code> branch.</p>
+<pre><code>$ git checkout master
+Already on 'master'
+$ git branch
+  edit-hello
+* master
+</code></pre>
+<p>Then delete the <code>edit-hello</code> branch.</p>
+<pre><code>$ git branch -d edit-hello
+error: The branch 'edit-hello' is not fully merged.
+If you are sure you want to delete it, run 'git branch -D edit-hello'.
+</code></pre>
+<p>See the error you got?  This is because there are changes present in
+the <code>edit-hello</code> working branch that are not currently part of the
+<code>master</code> branch.  So if you were to delete the <code>edit-hello</code> branch
+now, you would lose those changes with no way to get them back.  Since
+this is actually what we want to do, we will follow the instructions
+on the screen and use the <code>-D</code> flag instead of <code>-d</code> to force deletion
+of the <code>edit-hello</code> branch.</p>
+<pre><code>$ git branch -D edit-hello
+Deleted branch edit-hello (was cc722a5).
+$ git branch
+* master
+$ git log --pretty=oneline
+f15b723b204deb59b1f23577439ec58d917b2269 (HEAD -&gt; master) Initial commit
+$ cat hello.txt
+hello, world
+</code></pre>
+<p>As you see, we are back to the initial commit as though all of the
+work on the <code>edit-hello</code> branch never happened.</p>
+<h3 id="wrap-up">Wrap up</h3>
+<p>Git branches are a powerful technique for isolating work in such a way
+that you can test things out without worrying about "messing up" your
+repository.  Then, when you've finished the task you're working on, if
+it is good work, you can merge the changes into the <code>master</code> branch,
+or, if it was bad, you can just delete the working branch without
+applying any of the changes to the <code>master</code> branch.</p>
+<h3 id="notes">Notes</h3>
+<ul>
+<li>Notice how I named the work branch with a short description of what
+  I was actually planning to do?  This can be helpful if you have a
+  lot of different branches.</li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../tutorials/overview/" class="btn btn-neutral float-right" title="Overview">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../usage/" class="btn btn-neutral" title="Usage"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../usage/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../tutorials/overview/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
