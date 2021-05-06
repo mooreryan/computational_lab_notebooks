@@ -2,8 +2,8 @@
 
 [![Build and test](https://github.com/mooreryan/computational_lab_notebooks/actions/workflows/build_and_test.yml/badge.svg)](https://github.com/mooreryan/computational_lab_notebooks/actions/workflows/build_and_test.yml)
 
-CLI app to help you manage your computational lab notebook using git
-and git annex.
+A command line program to help you set up and manage a computational
+lab notebook using git and git-annex.
 
 It's inspired by [Rails ActiveRecord
 migrations](https://guides.rubyonrails.org/active_record_migrations.html#running-migrations),
@@ -12,10 +12,10 @@ in that it helps you prepare, run, and commit actions.
 ## Installation & Usage
 
 [![Documentation
-Book](https://img.shields.io/badge/docs-Book-blue)](https://mooreryan.github.io/cln_docs/)
+Book](https://img.shields.io/badge/docs-Book-blue)](https://mooreryan.github.io/computational_lab_notebooks/)
 
 For installation and usage instructions, please see the [documentation
-book](https://mooreryan.github.io/cln_docs/).
+book](https://mooreryan.github.io/computational_lab_notebooks/).
 
 ## License
 
