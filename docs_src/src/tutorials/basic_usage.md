@@ -13,6 +13,10 @@ or interesting in this example, and we won't talk *too* much about
 *why* you would want to use this in the first place.  It will be just
 to show you how the mechanics of using the `cln` app might work.
 
+*Note: to read a bit more about why you might want to use the `cln`
+program, check out [this blog
+post](https://www.tenderisthebyte.com/blog/2021/05/07/computational-lab-notebooks/).*
+
 I'm going to assume that you already have `git`, `git-annex`, and
 `cln` installed and ready to go.  If you don't, take a look at the
 [install page](../installation.md).
