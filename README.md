@@ -1,9 +1,9 @@
 # Computational Lab Notebooks
 
-[![Build and test](https://github.com/mooreryan/computational_lab_notebooks/actions/workflows/build_and_test.yml/badge.svg)](https://github.com/mooreryan/computational_lab_notebooks/actions/workflows/build_and_test.yml)
+[![Build and test](https://github.com/mooreryan/computational_lab_notebooks/actions/workflows/build_and_test.yml/badge.svg)](https://github.com/mooreryan/computational_lab_notebooks/actions/workflows/build_and_test.yml) [![Coverage Status](https://coveralls.io/repos/github/mooreryan/computational_lab_notebooks/badge.svg?branch=bisect)](https://coveralls.io/github/mooreryan/computational_lab_notebooks?branch=bisect)
 
-A command line program to help you set up and manage a computational
-lab notebook using git and git-annex.
+`cln`: a command line program to help you set up and manage a
+computational lab notebook using git and git-annex.
 
 It's inspired by [Rails ActiveRecord
 migrations](https://guides.rubyonrails.org/active_record_migrations.html#running-migrations),

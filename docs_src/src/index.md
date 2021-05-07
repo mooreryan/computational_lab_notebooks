@@ -4,7 +4,7 @@ main: true
 
 # Computational Lab Notebooks
 
-[![code on GitHub](https://img.shields.io/badge/code-GitHub-blue)](https://github.com/mooreryan/computational_lab_notebooks) [![Build and test](https://github.com/mooreryan/computational_lab_notebooks/actions/workflows/build_and_test.yml/badge.svg)](https://github.com/mooreryan/computational_lab_notebooks/actions/workflows/build_and_test.yml) [![GitHub issues](https://img.shields.io/github/issues/mooreryan/computational_lab_notebooks)](https://github.com/mooreryan/computational_lab_notebooks/issues)
+[![code on GitHub](https://img.shields.io/badge/code-GitHub-blue)](https://github.com/mooreryan/computational_lab_notebooks) [![GitHub issues](https://img.shields.io/github/issues/mooreryan/computational_lab_notebooks)](https://github.com/mooreryan/computational_lab_notebooks/issues) [![Build and test](https://github.com/mooreryan/computational_lab_notebooks/actions/workflows/build_and_test.yml/badge.svg)](https://github.com/mooreryan/computational_lab_notebooks/actions/workflows/build_and_test.yml) [![Coverage Status](https://coveralls.io/repos/github/mooreryan/computational_lab_notebooks/badge.svg?branch=bisect)](https://coveralls.io/github/mooreryan/computational_lab_notebooks?branch=bisect)
 
 Documentation for installing and using `cln`, a command line program to
 help you set up and manage a computational lab notebook using git and
