@@ -34,7 +34,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Use OCaml ${{ matrix.ocaml-version }}
-        uses: avsm/setup-ocaml@v1
+        uses: avsm/setup-ocaml@master
         with:
           ocaml-version: ${{ matrix.ocaml-version }}
 
@@ -52,8 +52,7 @@ jobs:
 
       - run: opam exec -- make send_coverage
         env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PULL_REQUEST_NUMBER: ${{ github.event.number }}
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
 
       - name: Upload the build artifact
         uses: actions/upload-artifact@v2
