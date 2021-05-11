@@ -20,6 +20,20 @@ tracker](https://github.com/mooreryan/cln_docs/issues) or the
 [documentaion GitHub
 repository](https://github.com/mooreryan/cln_docs).
 
+## Overview
+
+Keeping a good lab notebook for your work is key for data scientists
+and computational biologists.  We know it is important, but it can be
+challenging to implement in practice.  The `cln` program helps to
+automate some of the more tedious aspects of managing a computational
+lab notebook using git and git-annex.  It helps implement a workflow
+that gives you a nice, searchable git history and provenance tracking
+for your files.
+
+For more background information and motivation, see [my blog
+post](https://www.tenderisthebyte.com/blog/2021/05/07/computational-lab-notebooks/)
+introducing the software and workflow.
+
 ## License
 
 ### Software
