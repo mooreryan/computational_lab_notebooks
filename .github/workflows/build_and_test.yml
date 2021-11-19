@@ -3,10 +3,14 @@ name: Build and test
 on:
   push:
     branches:
-      - '*'
+      - 'master'
+      - 'staging'
   pull_request:
     branches:
       - '*'
+
+env:
+  PROGRAM_NAME: cln
 
 jobs:
   build:
@@ -16,7 +20,7 @@ jobs:
         os:
           - macos-latest
           - ubuntu-latest
-        ocaml-version:
+        ocaml-compiler:
           - 4.12.0
 
     runs-on: ${{ matrix.os }}
@@ -33,29 +37,47 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Use OCaml ${{ matrix.ocaml-version }}
-        uses: avsm/setup-ocaml@v1
+      - name: Use OCaml ${{ matrix.ocaml-compiler }}
+        uses: ocaml/setup-ocaml@v2
         with:
-          ocaml-version: ${{ matrix.ocaml-version }}
+          ocaml-compiler: ${{ matrix.ocaml-compiler }}
+          dune-cache: true
+          cache-prefix: v1-${{ matrix.os }}
 
-      - run: opam pin add computational_lab_notebooks.dev . --no-action
+      - name: Install OCaml deps (Ubuntu)
+        run: opam install . --deps-only --with-doc --with-test
+        if: matrix.os == 'ubuntu-latest'
 
-      - run: opam depext computational_lab_notebooks --yes --with-doc --with-test
+      - name: Install OCaml deps (MacOS)
+        run: opam install . --jobs 1 --deps-only --with-doc --with-test
+        if: matrix.os == 'macos-latest'
 
-      - run: opam install . --deps-only --with-doc --with-test
+      - name: Test (Ubuntu)
+        run: opam exec -- make test
+        if: matrix.os == 'ubuntu-latest'
 
-      - run: opam exec -- make
-
-      - run: opam exec -- make install
-
-      - run: opam exec -- make test
+      - name: Test (MacOS)
+        run: opam exec -- make test_mac
+        if: matrix.os == 'macos-latest'
 
       - run: opam exec -- make send_coverage
+        if: matrix.os == 'ubuntu-latest'
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Build (Ubuntu)
+        run: opam exec -- make build_release
+        if: matrix.os == 'ubuntu-latest'
+
+      - name: Build (MacOS)
+        run: opam exec -- make build_release_mac
+        if: matrix.os == 'macos-latest'
+
+      # If all goes well, upload the build artifact.  This must be
+      # placed after a non-instrumented binary is built.
       - name: Upload the build artifact
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.os }}-${{ matrix.ocaml-version }}-cln
-          path: _build/install/default/bin/cln
+          name: ${{ matrix.os }}-${{ matrix.ocaml-compiler }}-${{ env.PROGRAM_NAME }}
+          path: _build/install/default/bin/${{ env.PROGRAM_NAME }}
+
