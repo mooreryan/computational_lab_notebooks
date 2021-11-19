@@ -1,7 +1,7 @@
 open! Core
 open Cln_lib
 
-let version = "0.2.0"
+let version = "0.2.1"
 
 let init_command =
   Command.basic ~summary:Cli_help.init_summary ~readme:Cli_help.init_readme

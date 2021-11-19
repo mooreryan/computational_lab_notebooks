@@ -10,7 +10,7 @@
 
 (package
  (name computational_lab_notebooks)
- (version 0.2.0)
+ (version 0.2.1)
  (maintainers "Ryan Moore")
  (authors "Ryan Moore")
  (homepage "https://github.com/mooreryan/computational_lab_notebooks")
